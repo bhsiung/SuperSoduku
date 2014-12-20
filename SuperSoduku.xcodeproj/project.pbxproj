@@ -1,0 +1,430 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E59754B41A457E710033D998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B31A457E710033D998 /* AppDelegate.swift */; };
+		E59754B61A457E710033D998 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E59754B51A457E710033D998 /* GameScene.sks */; };
+		E59754B81A457E710033D998 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B71A457E710033D998 /* GameScene.swift */; };
+		E59754BA1A457E710033D998 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B91A457E710033D998 /* GameViewController.swift */; };
+		E59754BD1A457E710033D998 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59754BB1A457E710033D998 /* Main.storyboard */; };
+		E59754BF1A457E710033D998 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59754BE1A457E710033D998 /* Images.xcassets */; };
+		E59754C21A457E710033D998 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E59754C01A457E710033D998 /* LaunchScreen.xib */; };
+		E59754CE1A457E710033D998 /* SuperSodukuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754CD1A457E710033D998 /* SuperSodukuTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E59754C81A457E710033D998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E59754A61A457E710033D998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E59754AD1A457E710033D998;
+			remoteInfo = SuperSoduku;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E59754AE1A457E710033D998 /* SuperSoduku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperSoduku.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E59754B21A457E710033D998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E59754B31A457E710033D998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E59754B51A457E710033D998 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		E59754B71A457E710033D998 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		E59754B91A457E710033D998 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		E59754BC1A457E710033D998 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E59754BE1A457E710033D998 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E59754C11A457E710033D998 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		E59754C71A457E710033D998 /* SuperSodukuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperSodukuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E59754CC1A457E710033D998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E59754CD1A457E710033D998 /* SuperSodukuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSodukuTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E59754AB1A457E710033D998 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E59754C41A457E710033D998 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E59754A51A457E710033D998 = {
+			isa = PBXGroup;
+			children = (
+				E59754B01A457E710033D998 /* SuperSoduku */,
+				E59754CA1A457E710033D998 /* SuperSodukuTests */,
+				E59754AF1A457E710033D998 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E59754AF1A457E710033D998 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E59754AE1A457E710033D998 /* SuperSoduku.app */,
+				E59754C71A457E710033D998 /* SuperSodukuTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E59754B01A457E710033D998 /* SuperSoduku */ = {
+			isa = PBXGroup;
+			children = (
+				E59754B31A457E710033D998 /* AppDelegate.swift */,
+				E59754B51A457E710033D998 /* GameScene.sks */,
+				E59754B71A457E710033D998 /* GameScene.swift */,
+				E59754B91A457E710033D998 /* GameViewController.swift */,
+				E59754BB1A457E710033D998 /* Main.storyboard */,
+				E59754BE1A457E710033D998 /* Images.xcassets */,
+				E59754C01A457E710033D998 /* LaunchScreen.xib */,
+				E59754B11A457E710033D998 /* Supporting Files */,
+			);
+			path = SuperSoduku;
+			sourceTree = "<group>";
+		};
+		E59754B11A457E710033D998 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E59754B21A457E710033D998 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E59754CA1A457E710033D998 /* SuperSodukuTests */ = {
+			isa = PBXGroup;
+			children = (
+				E59754CD1A457E710033D998 /* SuperSodukuTests.swift */,
+				E59754CB1A457E710033D998 /* Supporting Files */,
+			);
+			path = SuperSodukuTests;
+			sourceTree = "<group>";
+		};
+		E59754CB1A457E710033D998 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E59754CC1A457E710033D998 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E59754AD1A457E710033D998 /* SuperSoduku */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E59754D11A457E710033D998 /* Build configuration list for PBXNativeTarget "SuperSoduku" */;
+			buildPhases = (
+				E59754AA1A457E710033D998 /* Sources */,
+				E59754AB1A457E710033D998 /* Frameworks */,
+				E59754AC1A457E710033D998 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SuperSoduku;
+			productName = SuperSoduku;
+			productReference = E59754AE1A457E710033D998 /* SuperSoduku.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E59754C61A457E710033D998 /* SuperSodukuTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E59754D41A457E710033D998 /* Build configuration list for PBXNativeTarget "SuperSodukuTests" */;
+			buildPhases = (
+				E59754C31A457E710033D998 /* Sources */,
+				E59754C41A457E710033D998 /* Frameworks */,
+				E59754C51A457E710033D998 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E59754C91A457E710033D998 /* PBXTargetDependency */,
+			);
+			name = SuperSodukuTests;
+			productName = SuperSodukuTests;
+			productReference = E59754C71A457E710033D998 /* SuperSodukuTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E59754A61A457E710033D998 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "BIINGYANN HSIUNG";
+				TargetAttributes = {
+					E59754AD1A457E710033D998 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					E59754C61A457E710033D998 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = E59754AD1A457E710033D998;
+					};
+				};
+			};
+			buildConfigurationList = E59754A91A457E710033D998 /* Build configuration list for PBXProject "SuperSoduku" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E59754A51A457E710033D998;
+			productRefGroup = E59754AF1A457E710033D998 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E59754AD1A457E710033D998 /* SuperSoduku */,
+				E59754C61A457E710033D998 /* SuperSodukuTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E59754AC1A457E710033D998 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E59754C21A457E710033D998 /* LaunchScreen.xib in Resources */,
+				E59754BF1A457E710033D998 /* Images.xcassets in Resources */,
+				E59754B61A457E710033D998 /* GameScene.sks in Resources */,
+				E59754BD1A457E710033D998 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E59754C51A457E710033D998 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E59754AA1A457E710033D998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E59754B81A457E710033D998 /* GameScene.swift in Sources */,
+				E59754BA1A457E710033D998 /* GameViewController.swift in Sources */,
+				E59754B41A457E710033D998 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E59754C31A457E710033D998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E59754CE1A457E710033D998 /* SuperSodukuTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E59754C91A457E710033D998 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E59754AD1A457E710033D998 /* SuperSoduku */;
+			targetProxy = E59754C81A457E710033D998 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E59754BB1A457E710033D998 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E59754BC1A457E710033D998 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E59754C01A457E710033D998 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E59754C11A457E710033D998 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E59754CF1A457E710033D998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E59754D01A457E710033D998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E59754D21A457E710033D998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SuperSoduku/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E59754D31A457E710033D998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SuperSoduku/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E59754D51A457E710033D998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SuperSodukuTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SuperSoduku.app/SuperSoduku";
+			};
+			name = Debug;
+		};
+		E59754D61A457E710033D998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SuperSodukuTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SuperSoduku.app/SuperSoduku";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E59754A91A457E710033D998 /* Build configuration list for PBXProject "SuperSoduku" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59754CF1A457E710033D998 /* Debug */,
+				E59754D01A457E710033D998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E59754D11A457E710033D998 /* Build configuration list for PBXNativeTarget "SuperSoduku" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59754D21A457E710033D998 /* Debug */,
+				E59754D31A457E710033D998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E59754D41A457E710033D998 /* Build configuration list for PBXNativeTarget "SuperSodukuTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59754D51A457E710033D998 /* Debug */,
+				E59754D61A457E710033D998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E59754A61A457E710033D998 /* Project object */;
+}
