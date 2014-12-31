@@ -8,13 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		E59754B41A457E710033D998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B31A457E710033D998 /* AppDelegate.swift */; };
-		E59754B61A457E710033D998 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E59754B51A457E710033D998 /* GameScene.sks */; };
 		E59754B81A457E710033D998 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B71A457E710033D998 /* GameScene.swift */; };
 		E59754BA1A457E710033D998 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B91A457E710033D998 /* GameViewController.swift */; };
 		E59754BD1A457E710033D998 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59754BB1A457E710033D998 /* Main.storyboard */; };
 		E59754BF1A457E710033D998 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59754BE1A457E710033D998 /* Images.xcassets */; };
-		E59754C21A457E710033D998 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E59754C01A457E710033D998 /* LaunchScreen.xib */; };
 		E59754CE1A457E710033D998 /* SuperSodukuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754CD1A457E710033D998 /* SuperSodukuTests.swift */; };
+		E5BC08761A535F7C00ACEABD /* grid_big.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC08751A535F7C00ACEABD /* grid_big.png */; };
+		E5BC08801A536BE800ACEABD /* number_button_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC08771A536BE800ACEABD /* number_button_1.png */; };
+		E5BC08811A536BE800ACEABD /* number_button_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC08781A536BE800ACEABD /* number_button_2.png */; };
+		E5BC08821A536BE800ACEABD /* number_button_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC08791A536BE800ACEABD /* number_button_3.png */; };
+		E5BC08831A536BE800ACEABD /* number_button_4.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087A1A536BE800ACEABD /* number_button_4.png */; };
+		E5BC08841A536BE800ACEABD /* number_button_5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087B1A536BE800ACEABD /* number_button_5.png */; };
+		E5BC08851A536BE800ACEABD /* number_button_6.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087C1A536BE800ACEABD /* number_button_6.png */; };
+		E5BC08861A536BE800ACEABD /* number_button_7.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087D1A536BE800ACEABD /* number_button_7.png */; };
+		E5BC08871A536BE800ACEABD /* number_button_8.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087E1A536BE800ACEABD /* number_button_8.png */; };
+		E5BC08881A536BE800ACEABD /* number_button_9.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087F1A536BE800ACEABD /* number_button_9.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,15 +39,23 @@
 		E59754AE1A457E710033D998 /* SuperSoduku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperSoduku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59754B21A457E710033D998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E59754B31A457E710033D998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E59754B51A457E710033D998 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		E59754B71A457E710033D998 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		E59754B91A457E710033D998 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E59754BC1A457E710033D998 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E59754BE1A457E710033D998 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E59754C11A457E710033D998 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E59754C71A457E710033D998 /* SuperSodukuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperSodukuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59754CC1A457E710033D998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E59754CD1A457E710033D998 /* SuperSodukuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSodukuTests.swift; sourceTree = "<group>"; };
+		E5BC08751A535F7C00ACEABD /* grid_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid_big.png; sourceTree = SOURCE_ROOT; };
+		E5BC08771A536BE800ACEABD /* number_button_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_1.png; sourceTree = SOURCE_ROOT; };
+		E5BC08781A536BE800ACEABD /* number_button_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_2.png; sourceTree = SOURCE_ROOT; };
+		E5BC08791A536BE800ACEABD /* number_button_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_3.png; sourceTree = SOURCE_ROOT; };
+		E5BC087A1A536BE800ACEABD /* number_button_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_4.png; sourceTree = SOURCE_ROOT; };
+		E5BC087B1A536BE800ACEABD /* number_button_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_5.png; sourceTree = SOURCE_ROOT; };
+		E5BC087C1A536BE800ACEABD /* number_button_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_6.png; sourceTree = SOURCE_ROOT; };
+		E5BC087D1A536BE800ACEABD /* number_button_7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_7.png; sourceTree = SOURCE_ROOT; };
+		E5BC087E1A536BE800ACEABD /* number_button_8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_8.png; sourceTree = SOURCE_ROOT; };
+		E5BC087F1A536BE800ACEABD /* number_button_9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_9.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,12 +98,10 @@
 			isa = PBXGroup;
 			children = (
 				E59754B31A457E710033D998 /* AppDelegate.swift */,
-				E59754B51A457E710033D998 /* GameScene.sks */,
 				E59754B71A457E710033D998 /* GameScene.swift */,
 				E59754B91A457E710033D998 /* GameViewController.swift */,
 				E59754BB1A457E710033D998 /* Main.storyboard */,
 				E59754BE1A457E710033D998 /* Images.xcassets */,
-				E59754C01A457E710033D998 /* LaunchScreen.xib */,
 				E59754B11A457E710033D998 /* Supporting Files */,
 			);
 			path = SuperSoduku;
@@ -96,6 +110,16 @@
 		E59754B11A457E710033D998 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E5BC08751A535F7C00ACEABD /* grid_big.png */,
+				E5BC08771A536BE800ACEABD /* number_button_1.png */,
+				E5BC08781A536BE800ACEABD /* number_button_2.png */,
+				E5BC08791A536BE800ACEABD /* number_button_3.png */,
+				E5BC087A1A536BE800ACEABD /* number_button_4.png */,
+				E5BC087B1A536BE800ACEABD /* number_button_5.png */,
+				E5BC087C1A536BE800ACEABD /* number_button_6.png */,
+				E5BC087D1A536BE800ACEABD /* number_button_7.png */,
+				E5BC087E1A536BE800ACEABD /* number_button_8.png */,
+				E5BC087F1A536BE800ACEABD /* number_button_9.png */,
 				E59754B21A457E710033D998 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -198,10 +222,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E59754C21A457E710033D998 /* LaunchScreen.xib in Resources */,
+				E5BC08821A536BE800ACEABD /* number_button_3.png in Resources */,
 				E59754BF1A457E710033D998 /* Images.xcassets in Resources */,
-				E59754B61A457E710033D998 /* GameScene.sks in Resources */,
+				E5BC08831A536BE800ACEABD /* number_button_4.png in Resources */,
 				E59754BD1A457E710033D998 /* Main.storyboard in Resources */,
+				E5BC08861A536BE800ACEABD /* number_button_7.png in Resources */,
+				E5BC08801A536BE800ACEABD /* number_button_1.png in Resources */,
+				E5BC08881A536BE800ACEABD /* number_button_9.png in Resources */,
+				E5BC08761A535F7C00ACEABD /* grid_big.png in Resources */,
+				E5BC08871A536BE800ACEABD /* number_button_8.png in Resources */,
+				E5BC08851A536BE800ACEABD /* number_button_6.png in Resources */,
+				E5BC08841A536BE800ACEABD /* number_button_5.png in Resources */,
+				E5BC08811A536BE800ACEABD /* number_button_2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,14 +282,6 @@
 				E59754BC1A457E710033D998 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E59754C01A457E710033D998 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E59754C11A457E710033D998 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -415,6 +439,7 @@
 				E59754D31A457E710033D998 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E59754D41A457E710033D998 /* Build configuration list for PBXNativeTarget "SuperSodukuTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +448,7 @@
 				E59754D61A457E710033D998 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
