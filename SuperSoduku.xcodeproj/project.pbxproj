@@ -23,6 +23,7 @@
 		E5BC08861A536BE800ACEABD /* number_button_7.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087D1A536BE800ACEABD /* number_button_7.png */; };
 		E5BC08871A536BE800ACEABD /* number_button_8.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087E1A536BE800ACEABD /* number_button_8.png */; };
 		E5BC08881A536BE800ACEABD /* number_button_9.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC087F1A536BE800ACEABD /* number_button_9.png */; };
+		E5BC088A1A53A1F100ACEABD /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BC08891A53A1F100ACEABD /* Regex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		E5BC087D1A536BE800ACEABD /* number_button_7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_7.png; sourceTree = SOURCE_ROOT; };
 		E5BC087E1A536BE800ACEABD /* number_button_8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_8.png; sourceTree = SOURCE_ROOT; };
 		E5BC087F1A536BE800ACEABD /* number_button_9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number_button_9.png; sourceTree = SOURCE_ROOT; };
+		E5BC08891A53A1F100ACEABD /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				E59754B71A457E710033D998 /* GameScene.swift */,
 				E59754B91A457E710033D998 /* GameViewController.swift */,
 				E59754BB1A457E710033D998 /* Main.storyboard */,
+				E5BC08891A53A1F100ACEABD /* Regex.swift */,
 				E59754BE1A457E710033D998 /* Images.xcassets */,
 				E59754B11A457E710033D998 /* Supporting Files */,
 			);
@@ -252,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59754B81A457E710033D998 /* GameScene.swift in Sources */,
+				E5BC088A1A53A1F100ACEABD /* Regex.swift in Sources */,
 				E59754BA1A457E710033D998 /* GameViewController.swift in Sources */,
 				E59754B41A457E710033D998 /* AppDelegate.swift in Sources */,
 			);
