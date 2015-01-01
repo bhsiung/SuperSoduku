@@ -84,12 +84,18 @@ class GridCell:SKNode
     var controllerDelegate:GridCellDelegation?
     let numberNode:SKLabelNode,bgNode:SKShapeNode
     let x:Int,y:Int,width:Float
+    
+    let errorFontColor:SKColor = SKColor.redColor()
+    let normalFontColor:SKColor = SKColor.greenColor()
+    let definedFontColor:SKColor = SKColor.blackColor()
+    let isFixed:Bool
+    
     var number:Int?{
         didSet{
             self.numberNode.text = String(format: "%d", number!);
         }
     }
-    init(x:Int,y:Int,width:Float)
+    init(x:Int,y:Int,width:Float,isFixed:Bool)
     {
         self.bgNode = SKShapeNode(rect: CGRectMake(0, 0, CGFloat(width), CGFloat(width)))
         self.bgNode.fillColor = SKColor(red: 1, green: 1, blue: 1, alpha: 0.4)
@@ -97,7 +103,11 @@ class GridCell:SKNode
         
         self.numberNode = SKLabelNode(fontNamed: "Chalkduster");
         self.numberNode.fontSize = 16;
-        self.numberNode.fontColor = SKColor.blackColor();
+        if(isFixed){
+            self.numberNode.fontColor = definedFontColor;
+        }else{
+            self.numberNode.fontColor = normalFontColor;
+        }
         self.numberNode.position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
         self.numberNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         self.numberNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -105,6 +115,7 @@ class GridCell:SKNode
         self.x = x
         self.y = y
         self.width = width
+        self.isFixed = isFixed
         super.init();
         self.userInteractionEnabled = true;
         self.addChild(bgNode)
@@ -118,24 +129,49 @@ class GridCell:SKNode
     }
     func startFlashing()
     {
-        //todo
+        self.stopFlashing()
+        self.runAction(SKAction.repeatActionForever(SKAction.sequence(
+            [SKAction.fadeAlphaTo(0.5, duration: 0.5),SKAction.fadeAlphaTo(1, duration: 0.2)]
+            )), withKey: "flash")
     }
     func stopFlashing()
     {
-        //todo
+        removeActionForKey("flash");
+        self.alpha = 1
     }
     func error()
     {
-        //todo
+        self.numberNode.fontColor = SKColor.redColor();
     }
     func unerror()
     {
-        //todo
+        self.numberNode.fontColor = SKColor.blackColor();
     }
 }
-class GridCellController:GridCellDelegation{
+enum GameDifficulty:Int{
+    case easy = 1,intermedia,hard,insane,nightmare
+    var cellShouldBeFixed: Bool{
+        let diceRoll = Int(arc4random_uniform(100))
+        switch self{
+            case easy:
+                return diceRoll > 20;
+            case intermedia:
+                return diceRoll > 50;
+            case hard:
+                return diceRoll > 70;
+            case insane:
+                return diceRoll > 90;
+            case nightmare:
+                return diceRoll > 95;
+        }
+    }
+}
+class GridCellController:GridCellDelegation
+{
     let width:Int, numberOfRow: Int, scene: SKScene
     var cells:[[GridCell]];
+    let difficulty:GameDifficulty
+    
     var currentPos:Pos{
         willSet{
             println("\(self.currentPos.x),\(newValue.x)")
@@ -152,15 +188,16 @@ class GridCellController:GridCellDelegation{
         self.currentPos = Pos(x: 0,y: 0)
         var cellWidth:Float = Float(width/numberOfRow);
         self.cells = Array<Array<GridCell>>()
+        self.difficulty = GameDifficulty.nightmare // todo
+        
         for _x in 0...numberOfRow-1 {
-            self.cells.append(Array(count: numberOfRow, repeatedValue: GridCell(x:0,y:0,width:cellWidth)));
+            self.cells.append(Array(count: numberOfRow, repeatedValue: GridCell(x:0,y:0,width:cellWidth,isFixed: true)));
             for _y in 0...numberOfRow-1{
-                var gridCell:GridCell = GridCell(x: _x, y: _y, width: cellWidth);
+                var gridCell:GridCell = GridCell(x: _x, y: _y, width: cellWidth, isFixed: self.difficulty.cellShouldBeFixed);
                 gridCell.controllerDelegate = self;
                 var xMovement = Float(_x)*cellWidth;
                 var yMovement = Float(_y)*cellWidth;
                 gridCell.position = CGPointMake(CGFloat(x+xMovement), CGFloat(y-yMovement));
-                //gridCell.number = _x+1+_y*numberOfRow;
                 scene.addChild(gridCell)
                 self.cells[_x][_y] = gridCell;
             }
@@ -189,32 +226,118 @@ class GridCellController:GridCellDelegation{
     }
     func isBoardComplete() ->Bool
     {
-        // todo
-        return false;
+        for x in 0...numberOfRow-1 {
+            for y in 0...numberOfRow-1{
+                if(cells[x][y].number == nil){
+                    return false
+                }
+            }
+        }
+        return true;
     }
     func completeValidate() ->Bool
     {
-        //todo
-        return false
+        for x in 0 ... numberOfRow-1{
+            for y in 0 ... numberOfRow-1{
+                if(!validate(Pos(x: x,y:y))){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
-    func validate(pos:Pos)->Bool{
-        //todo
+    func validate(pos:Pos)->Bool
+    {
+        cells[pos.x][pos.y].error()
+        if(!validateRow(pos.x,y:pos.y)){
+            return false
+        }
+        if(!validateCol(pos.x,y:pos.y)){
+            return false
+        }
+        if(!validateGroup(pos.x,y:pos.y)){
+            return false
+        }
+        cells[pos.x][pos.y].unerror()
+        return true;
+    }
+    func validateRow(x:Int,y:Int)->Bool
+    {
+        for _x in 0 ... numberOfRow-1{
+            if(_x != x && cells[x][y].number == cells[_x][y].number){
+                return false
+            }
+        }
+        return true;
+    }
+    func validateCol(x:Int,y:Int)->Bool
+    {
+        for _y in 0 ... numberOfRow-1{
+            if(_y != y && cells[x][y].number == cells[x][_y].number){
+                return false
+            }
+        }
+        return true;
+    }
+    func validateGroup(x:Int,y:Int)->Bool
+    {
+        let groupSize = sqrtf(Float(numberOfRow))
+        let xStart = Int(floorf(Float(x)/groupSize)*groupSize);
+        let xEnd = xStart+Int(groupSize)-1
+        let yStart = Int(floorf(Float(y)/groupSize)*groupSize);
+        let yEnd = yStart+Int(groupSize)-1
+        //println("(\(xStart)...\(xEnd)),(\(yStart)...\(yEnd)) pos:(\(x),\(y)), num: \(cells[x][y].number)")
+        for(var _x=xStart; _x<=xEnd; _x++){
+            for(var _y=yStart; _y<=yEnd; _y++){
+                if(_y != y && _x != x && cells[x][y].number == cells[_x][_y].number){
+                    return false
+                }
+            }
+        }
         return true;
     }
     func assignCellNumbers()
     {
-        //todo
+        var sample:[[Int]] = [
+            [8,1,2,9,7,4,3,6,5],
+            [9,3,4,6,5,1,7,8,2],
+            [7,6,5,8,2,3,9,4,1],
+            [5,7,1,4,8,2,6,9,3],
+            [2,8,9,3,6,5,4,1,7],
+            [6,4,3,7,1,9,2,5,8],
+            [1,9,6,5,3,7,8,2,4],
+            [3,2,8,1,4,6,5,7,9],
+            [4,5,7,2,9,8,1,3,6]];
+        var shuffleMapping:Array<Int> = [1,2,3,4,5,6,7,8,9]
+        shuffleMapping.shuffle()
+        
+        for x in 0 ... numberOfRow-1{
+            for y in 0 ... numberOfRow-1{
+                if(cells[x][y].isFixed){
+                    cells[x][y].number = shuffleMapping[sample[x][y]-1];
+                }
+            }
+        }
     }
     func moveCursor(pos:Pos)
     {
         self.currentPos = pos;
     }
 }
+
 struct Pos {
     var x:Int,y:Int
     init(x:Int,y:Int)
     {
         self.x = x;
         self.y = y;
+    }
+}
+extension Array {
+    mutating func shuffle() {
+        for i in 0..<(count - 1) {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            swap(&self[i], &self[j])
+        }
     }
 }

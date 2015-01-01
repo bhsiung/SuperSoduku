@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SuperSoduku/GameScene.swift"
-            timestampString = "441711474.609212"
+            timestampString = "441800899.645107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "init(x:y:width:)"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "init(x:y:width:isFixed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
