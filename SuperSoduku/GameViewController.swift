@@ -10,27 +10,49 @@ import UIKit
 import SpriteKit
 
 
-class GameViewController: UIViewController {
+protocol GameControllerDelegation{
+    func difficultySelected(d:GameDifficulty)
+    func quitFromGame()
+}
+
+class GameViewController: UIViewController,GameControllerDelegation {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        goDifficultySelector()
+        //goGame()
         
+    }
+    func goGame(d:GameDifficulty)
+    {
         let scene = GameScene();
-        // Configure the view.
         let skView = self.view as SKView;
         skView.showsFPS = true
         skView.showsNodeCount = true
-        
-        /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
         
-        /* Set the scale mode to scale to fit the window */
         scene.scaleMode = .ResizeFill
         scene.anchorPoint = CGPoint(x:0,y:1);
         scene.size = skView.bounds.size
+        scene.difficulty = d
+        scene.gameControllerDelegation = self
         
         skView.presentScene(scene)
+    }
+    func goDifficultySelector()
+    {
+        let scene = DifficultySelectorScene();
+        let skView = self.view as SKView;
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.ignoresSiblingOrder = true
         
+        scene.scaleMode = .ResizeFill
+        scene.anchorPoint = CGPoint(x:0,y:1);
+        scene.size = skView.bounds.size
+        scene.gameControllerDelegation = self
+        
+        skView.presentScene(scene)
     }
 
     override func shouldAutorotate() -> Bool {
@@ -52,5 +74,12 @@ class GameViewController: UIViewController {
 
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    func difficultySelected(d: GameDifficulty) {
+        println("root \(d.text)")
+        goGame(d)
+    }
+    func quitFromGame() {
+        goDifficultySelector()
     }
 }

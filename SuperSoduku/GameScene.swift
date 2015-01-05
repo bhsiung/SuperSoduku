@@ -13,6 +13,7 @@ protocol GridCellDelegation{
 }
 protocol GameSceneDelegation{
     func complete()
+    func userSetNumber(i:Int)
 }
 class GridCell:SKNode
 {
@@ -21,8 +22,8 @@ class GridCell:SKNode
     let x:Int,y:Int,width:Float
     
     let errorFontColor:SKColor = SKColor.redColor()
-    let normalFontColor:SKColor = SKColor.greenColor()
-    let definedFontColor:SKColor = SKColor.blackColor()
+    let normalFontColor:SKColor = SKColor(red: 0.10, green: 0.10, blue: 0.10, alpha: 1)
+    let definedFontColor:SKColor = SKColor(red: 0.50, green: 0.45, blue: 0.33, alpha: 1)
     let isFixed:Bool
     
     var number:Int?{
@@ -33,7 +34,7 @@ class GridCell:SKNode
     init(x:Int,y:Int,width:Float,isFixed:Bool)
     {
         self.bgNode = SKShapeNode(rect: CGRectMake(0, 0, CGFloat(width), CGFloat(width)))
-        self.bgNode.fillColor = SKColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        self.bgNode.fillColor = SKColor.clearColor()
         self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * width));
         
         self.numberNode = SKLabelNode(fontNamed: "Chalkduster");
@@ -54,7 +55,7 @@ class GridCell:SKNode
         self.isFixed = isFixed
         super.init();
         self.userInteractionEnabled = true;
-        //self.addChild(bgNode), todo
+        self.addChild(bgNode)
         self.addChild(numberNode)
     }
     required init?(coder aDecoder: NSCoder) {
@@ -77,15 +78,34 @@ class GridCell:SKNode
     }
     func error()
     {
-        self.numberNode.fontColor = SKColor.redColor();
+        if(!self.isFixed){
+            self.numberNode.fontColor = errorFontColor;
+        }
     }
     func unerror()
     {
-        self.numberNode.fontColor = SKColor.blackColor();
+        if(!self.isFixed){
+            self.numberNode.fontColor = normalFontColor;
+        }
     }
 }
 enum GameDifficulty:Int{
     case easy = 1,intermedia,hard,insane,nightmare
+    static let allValues = [easy,intermedia,hard,insane,nightmare]
+    var text: String{
+        switch self{
+        case easy:
+            return "Easy";
+        case intermedia:
+            return "Medium";
+        case hard:
+            return "Hard";
+        case insane:
+            return "Insane";
+        case nightmare:
+            return "Nightmare";
+        }
+    }
     var cellShouldBeFixed: Bool{
         let diceRoll = Int(arc4random_uniform(100))
         switch self{
@@ -106,17 +126,29 @@ enum GameDifficulty:Int{
 
 class GameScene: SKScene,GameSceneDelegation
 {
+    var difficulty:GameDifficulty = GameDifficulty.easy
+    var gameControllerDelegation: GameControllerDelegation?
     var gridCellController:GridCellController?
     override func didMoveToView(view: SKView) {
         makeGrid()
         makeNumberButtons()
-        self.backgroundColor = SKColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
+        makeUtil()
+        self.backgroundColor = SKColor(red: 1.0, green: 0.89, blue: 0.66, alpha: 1)
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         let touch:UITouch = touches.anyObject() as UITouch;
         let location = touch.locationInNode(self);
         let touchedNode = nodeAtPoint(location)
-        println("\(touchedNode)")
+        if touchedNode is SKLabelNode{
+            if let button:SKLabelNode = touchedNode as? SKLabelNode{
+                if let buttonName:String = button.name {
+                    if(buttonName == "exit-button"){
+                        self.gameControllerDelegation?.quitFromGame()
+                    }
+                }
+            }
+        }
+        /*
         if touchedNode is SKSpriteNode{
             if let button:NumberButton = touchedNode as? NumberButton{
                 if let buttonName:String = button.name {
@@ -126,9 +158,20 @@ class GameScene: SKScene,GameSceneDelegation
                 }
             }
         }
+        */
     }
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    func makeUtil()
+    {
+        var exitButtonNode = SKLabelNode(fontNamed: "GillSans-Bold")
+        exitButtonNode.text = "quit"
+        exitButtonNode.fontSize = 30
+        exitButtonNode.position = CGPointMake(270, -400)
+        exitButtonNode.fontColor = SKColor.blackColor()
+        exitButtonNode.name = "exit-button"
+        self.addChild(exitButtonNode)
     }
     func makeGrid()
     {
@@ -138,22 +181,27 @@ class GameScene: SKScene,GameSceneDelegation
         grid.anchorPoint = CGPoint(x:0,y:1);
         grid.size = CGSizeMake(300, 300)
         self.addChild(grid);
-        self.gridCellController = GridCellController(width: 300, numberOfRow: 9, scene: self,x: offsetX,y: offsetY);
+        self.gridCellController = GridCellController(width: 300, numberOfRow: 9, scene: self,x: offsetX,y: offsetY,d: self.difficulty);
     }
     func makeNumberButtons()
     {
-        let xoffset = 5.0;
-        let yoffset = -350.0;
-        let w = 25.0;
-        let h = 25.0;
+        let xoffset = 10.0;
+        let yoffset = -320.0;
         let p = 5.0;
+        let numberOfColumnPerRow = 3.0
         for(var i=1; i<10; i++){
             let _i = Double(i);
             var numberButton = NumberButton(buttonIndex: i);
-            numberButton.position = CGPointMake(CGFloat(xoffset+_i*(w+p)), CGFloat(yoffset));
-            numberButton.size = CGSizeMake(CGFloat(w), CGFloat(h))
+            numberButton.gameSceneDelegation = self
+            var w = Double(numberButton.width)
+            var newY = CGFloat(yoffset - (w+p)*floor((_i-1.0)/numberOfColumnPerRow))
+            println("\(_i-1.0),\(numberOfColumnPerRow)")
+            numberButton.position = CGPointMake(CGFloat(xoffset+((_i-1)%numberOfColumnPerRow)*(w+p)), newY);
             self.addChild(numberButton)
         }
+    }
+    func userSetNumber(i: Int) {
+        self.gridCellController?.setNumber(i)
     }
     func complete() {
         CompleteEffect.complete(self,score:1234)
@@ -217,15 +265,37 @@ class CompleteEffect: SKNode
         fatalError("init(coder:) has not been implemented")
     }
 }
-class NumberButton: SKSpriteNode
+class NumberButton: SKNode
 {
     var i:Int
+    let bgNode:SKShapeNode
+    let numberNode:SKLabelNode
+    let width = 30.0
+    var gameSceneDelegation:GameSceneDelegation?
     init(buttonIndex:Int)
     {
-        let texture = SKTexture(imageNamed: "number_button_\(buttonIndex).png");
+        self.bgNode = SKShapeNode(rect: CGRectMake(0, 0, CGFloat(width), CGFloat(width)))
+        self.bgNode.fillColor = SKColor.clearColor()
+        self.bgNode.strokeColor = SKColor.blackColor()
+        self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * width));
+        
+        self.numberNode = SKLabelNode(fontNamed: "Chalkduster");
+        self.numberNode.fontSize = 16;
+        self.numberNode.fontColor = SKColor.blackColor()
+        
+        self.numberNode.position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
+        self.numberNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        self.numberNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        self.numberNode.text = NSString(format: "%d", buttonIndex)
         self.i = buttonIndex
-        super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
-        self.name = "number-button"
+        
+        super.init();
+        self.userInteractionEnabled = true;
+        self.addChild(bgNode)
+        self.addChild(numberNode)
+    }
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.gameSceneDelegation?.userSetNumber(self.i)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -247,7 +317,7 @@ class GridCellController:GridCellDelegation
         }
     }
     
-    init(width:Int,numberOfRow:Int,scene:GameScene,x:Float,y:Float)
+    init(width:Int,numberOfRow:Int,scene:GameScene,x:Float,y:Float,d:GameDifficulty)
     {
         self.width = width
         self.numberOfRow = numberOfRow
@@ -255,7 +325,7 @@ class GridCellController:GridCellDelegation
         self.currentPos = Pos(x: 0,y: 0)
         var cellWidth:Float = Float(width/numberOfRow);
         self.cells = Array<Array<GridCell>>()
-        self.difficulty = GameDifficulty.easy // todo
+        self.difficulty = d
         self.gameSceneDelegation = scene
         for _x in 0...numberOfRow-1 {
             self.cells.append(Array(count: numberOfRow, repeatedValue: GridCell(x:0,y:0,width:cellWidth,isFixed: true)));
