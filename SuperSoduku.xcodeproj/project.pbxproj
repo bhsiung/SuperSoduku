@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E58602A91A5D2ED500605EFF /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E58602A81A5D2ED500605EFF /* iAd.framework */; };
 		E59754B41A457E710033D998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B31A457E710033D998 /* AppDelegate.swift */; };
 		E59754B81A457E710033D998 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B71A457E710033D998 /* GameScene.swift */; };
 		E59754BA1A457E710033D998 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754B91A457E710033D998 /* GameViewController.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E58602A81A5D2ED500605EFF /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		E59754AE1A457E710033D998 /* SuperSoduku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperSoduku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59754B21A457E710033D998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E59754B31A457E710033D998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E58602A91A5D2ED500605EFF /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +86,7 @@
 		E59754A51A457E710033D998 = {
 			isa = PBXGroup;
 			children = (
+				E58602A81A5D2ED500605EFF /* iAd.framework */,
 				E59754B01A457E710033D998 /* SuperSoduku */,
 				E59754CA1A457E710033D998 /* SuperSodukuTests */,
 				E59754AF1A457E710033D998 /* Products */,

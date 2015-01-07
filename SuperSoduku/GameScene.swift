@@ -10,10 +10,11 @@ import SpriteKit
 
 protocol GridCellDelegation{
     func moveCursor(pos:Pos)
+    func setNumber(number:Int)
+    func setAnnotation(number:Int)
 }
 protocol GameSceneDelegation{
     func complete()
-    func userSetNumber(i:Int)
 }
 enum GameDifficulty:Int{
     case easy = 1,intermedia,hard,insane,nightmare
@@ -54,6 +55,7 @@ class GridCell:SKNode
     let numberNode:SKLabelNode,bgNode:SKShapeNode
     let x:Int,y:Int,width:Float
     let fontSize:CGFloat = 13
+    var annotationLabels:[SKLabelNode]
     
     let errorFontColor:SKColor = SKColor.redColor()
     let normalFontColor:SKColor = SKColor(red: 0.10, green: 0.10, blue: 0.10, alpha: 1)
@@ -65,10 +67,10 @@ class GridCell:SKNode
             self.numberNode.text = String(format: "%d", number!);
         }
     }
-    init(x:Int,y:Int,width:Float,isFixed:Bool)
+    init(x:Int,y:Int,width:Float,isFixed:Bool,backgroundColor: SKColor)
     {
         self.bgNode = SKShapeNode(rect: CGRectMake(0, 0, CGFloat(width), CGFloat(width)))
-        self.bgNode.fillColor = SKColor.whiteColor()
+        self.bgNode.fillColor = backgroundColor
         self.bgNode.strokeColor = SKColor.clearColor()
         self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * width));
         
@@ -83,15 +85,30 @@ class GridCell:SKNode
         self.numberNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         self.numberNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.numberNode.text = ""
+        self.annotationLabels = Array<SKLabelNode>()
         
         self.x = x
         self.y = y
         self.width = width
         self.isFixed = isFixed
         super.init();
+        makeAnnotation()
+        
         self.userInteractionEnabled = true;
         self.addChild(bgNode)
         self.addChild(numberNode)
+    }
+    func makeAnnotation()
+    {
+        self.annotationLabels = Array(count: 9, repeatedValue: SKLabelNode())
+        for i in 0...8{
+            annotationLabels[i] = SKLabelNode(fontNamed: GameScene.systemFont);
+            annotationLabels[i].fontSize = 6;
+            annotationLabels[i].fontColor = definedFontColor;
+            annotationLabels[i].position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
+            annotationLabels[i].text = "\(i+1)"
+            //self.addChild(annotationLabels[i])
+        }
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -141,8 +158,9 @@ class GameScene: SKScene,GameSceneDelegation
     override func didMoveToView(view: SKView) {
         makeGrid()
         makeNumberButtons()
+        makeAnnotationNumberButtons()
         makeUtil()
-        self.backgroundColor = SKColor(red: 0.93, green: 0.93, blue: 0.90, alpha: 1)
+        self.backgroundColor = SKColor(red: 0.90, green: 0.90, blue: 0.85, alpha: 1)
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         let touch:UITouch = touches.anyObject() as UITouch;
@@ -177,7 +195,9 @@ class GameScene: SKScene,GameSceneDelegation
         var exitButtonNode = SKLabelNode(fontNamed: exitButtonFont)
         exitButtonNode.text = "quit"
         exitButtonNode.fontSize = 18
-        exitButtonNode.position = CGPointMake(270, -1*(self.frame.height-40))
+        let y:CGFloat = 80;
+        let x:CGFloat = 270;
+        exitButtonNode.position = CGPointMake(x, -1*(self.frame.height-y))
         exitButtonNode.fontColor = SKColor.blackColor()
         exitButtonNode.name = "exit-button"
         self.addChild(exitButtonNode)
@@ -203,10 +223,25 @@ class GameScene: SKScene,GameSceneDelegation
         for(var i=1; i<10; i++){
             let _i = Double(i);
             var numberButton = NumberButton(buttonIndex: i);
-            numberButton.gameSceneDelegation = self
+            numberButton.gridCellControllerDelegation = gridCellController
             var w = Double(numberButton.width)
             var newY = CGFloat(yoffset - (w+p)*floor((_i-1.0)/numberOfColumnPerRow))
-            println("\(_i-1.0),\(numberOfColumnPerRow)")
+            numberButton.position = CGPointMake(CGFloat(xoffset+((_i-1)%numberOfColumnPerRow)*(w+p)), newY);
+            self.addChild(numberButton)
+        }
+    }
+    func makeAnnotationNumberButtons()
+    {
+        let xoffset = 120.0;
+        let yoffset = -320.0;
+        let p = 5.0;
+        let numberOfColumnPerRow = 3.0
+        for(var i=1; i<10; i++){
+            let _i = Double(i);
+            var numberButton = AnnotationNumberButton(buttonIndex: i);
+            numberButton.gridCellControllerDelegation = gridCellController
+            var w = Double(numberButton.width)
+            var newY = CGFloat(yoffset - (w+p)*floor((_i-1.0)/numberOfColumnPerRow))
             numberButton.position = CGPointMake(CGFloat(xoffset+((_i-1)%numberOfColumnPerRow)*(w+p)), newY);
             self.addChild(numberButton)
         }
@@ -228,6 +263,7 @@ class CompleteEffect: SKNode
     let exitButtonNode: SKLabelNode
     let titleFont = "AvenirNextCondensed-HeavyItalic"
     let utilFont = "GillSans-Bold"
+    let overlayColor = SKColor(red: 0.8, green: 0.36, blue: 0.36, alpha: 1);
     
     class func complete(scene:GameScene,score:Int)
     {
@@ -277,7 +313,7 @@ class CompleteEffect: SKNode
     }
     func createOverlay()
     {
-        overlay.fillColor = SKColor(red: 0, green: 0, blue: 0, alpha: 1);
+        overlay.fillColor = overlayColor
         overlay.strokeColor = SKColor.clearColor()
         overlay.position = CGPointMake(0, -1 * ((gameScene.frame.height + overlay.frame.height) / 2))
         overlay.alpha = 0
@@ -319,9 +355,9 @@ class NumberButton: SKNode
     var i:Int
     let bgNode:SKShapeNode
     let numberNode:SKLabelNode
-    let width = 45.0
+    let width = 30.0
     let fontSize:CGFloat = 18
-    var gameSceneDelegation:GameSceneDelegation?
+    var gridCellControllerDelegation:GridCellDelegation?
     init(buttonIndex:Int)
     {
         self.bgNode = SKShapeNode(rect: CGRectMake(0, 0, CGFloat(width), CGFloat(width)))
@@ -347,7 +383,7 @@ class NumberButton: SKNode
         self.addChild(numberNode)
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        self.gameSceneDelegation?.userSetNumber(self.i)
+        self.gridCellControllerDelegation?.setNumber(self.i)
         bgNode.runAction(SKAction.fadeAlphaTo(0.6, duration: 0.3))
     }
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
@@ -355,6 +391,13 @@ class NumberButton: SKNode
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+class AnnotationNumberButton:NumberButton
+{
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.gridCellControllerDelegation?.setAnnotation(self.i)
+        bgNode.runAction(SKAction.fadeAlphaTo(0.6, duration: 0.3))
     }
 }
 class GridCellController:GridCellDelegation
@@ -385,11 +428,18 @@ class GridCellController:GridCellDelegation
         var padding:Float = 1
         let xOffset = x+padding
         let yOffset = y+padding
+        var cellBackgroundColor:SKColor
         for _x in 0...numberOfRow-1 {
-            self.cells.append(Array(count: numberOfRow, repeatedValue: GridCell(x:0,y:0,width:cellWidth,isFixed: true)));
+            self.cells.append(Array(count: numberOfRow, repeatedValue: GridCell(x:0,y:0,width:cellWidth,isFixed: true,backgroundColor: SKColor.whiteColor())));
             for _y in 0...numberOfRow-1{
+                if(cellGourpNumberFromPosition(_x,y:_y) % 2 == 0){
+                    cellBackgroundColor = SKColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1)
+                }else{
+                    cellBackgroundColor = SKColor.whiteColor()
+                }
                 var gridCell:GridCell = GridCell(
-                    x: _x, y: _y, width: cellWidth - padding, isFixed: self.difficulty.cellShouldBeFixed);
+                    x: _x, y: _y, width: cellWidth - padding,
+                    isFixed: self.difficulty.cellShouldBeFixed,backgroundColor:cellBackgroundColor);
                 gridCell.controllerDelegate = self;
                 var xMovement = Float(_x)*cellWidth;
                 var yMovement = Float(_y)*cellWidth;
@@ -399,6 +449,13 @@ class GridCellController:GridCellDelegation
             }
         }
         self.assignCellNumbers();
+    }
+    func cellGourpNumberFromPosition(x:Int,y:Int)->Int
+    {
+        var w = sqrtf(Float(numberOfRow))
+        var i = floor(Float(x)/w)
+        i += w*floor(Float(y)/w)
+        return Int(i)
     }
     func setNumber(number:Int)
     {
@@ -414,6 +471,9 @@ class GridCellController:GridCellDelegation
         }else{
             currentCell.error();
         }
+    }
+    func setAnnotation(number: Int) {
+        println("\(number)")
     }
     func isBoardComplete() ->Bool
     {

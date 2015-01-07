@@ -9,7 +9,7 @@ class DifficultySelectorScene: SKScene
     }
     override func didMoveToView(view: SKView)
     {
-        self.backgroundColor = SKColor(red: 0.20, green: 0.2, blue: 0.2, alpha: 1)
+        self.backgroundColor = SKColor(red: 0.60, green: 0.6, blue: 0.5, alpha: 1)
         var logoNode = SKSpriteNode(imageNamed: "logo")
         logoNode.position = CGPointMake(110, -80)
         logoNode.anchorPoint = CGPointMake(0, 1)

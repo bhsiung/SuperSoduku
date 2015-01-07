@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import iAd
 
 
 protocol GameControllerDelegation{
@@ -17,11 +18,17 @@ protocol GameControllerDelegation{
 
 class GameViewController: UIViewController,GameControllerDelegation {
 
+    let bannerHeight:CGFloat = 50
     override func viewDidLoad() {
         super.viewDidLoad()
         goDifficultySelector()
         //goGame()
         
+    }
+    override func viewDidAppear(animated: Bool) {
+        var adView:ADBannerView = ADBannerView(frame:
+            CGRectMake(0, view.frame.size.height-bannerHeight, 320, bannerHeight));
+        self.view.addSubview(adView)
     }
     func goGame(d:GameDifficulty)
     {
@@ -33,7 +40,7 @@ class GameViewController: UIViewController,GameControllerDelegation {
         
         scene.scaleMode = .ResizeFill
         scene.anchorPoint = CGPoint(x:0,y:1);
-        scene.size = skView.bounds.size
+        scene.size = CGSizeMake(skView.bounds.size.width, skView.bounds.size.height)
         scene.difficulty = d
         scene.gameControllerDelegation = self
         
@@ -49,7 +56,7 @@ class GameViewController: UIViewController,GameControllerDelegation {
         
         scene.scaleMode = .ResizeFill
         scene.anchorPoint = CGPoint(x:0,y:1);
-        scene.size = skView.bounds.size
+        scene.size = CGSizeMake(skView.bounds.size.width, skView.bounds.size.height-bannerHeight)
         scene.gameControllerDelegation = self
         
         skView.presentScene(scene)
