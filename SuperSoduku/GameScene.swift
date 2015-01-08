@@ -100,15 +100,57 @@ class GridCell:SKNode
     }
     func makeAnnotation()
     {
+        let xOffset:Float = 5
+        let yOffset:Float = -6
         self.annotationLabels = Array(count: 9, repeatedValue: SKLabelNode())
         for i in 0...8{
+            if(i == 4){
+                continue
+            }
+            var x = Float(i%3)
+            var y = Float(floor(Double(i)/3))
             annotationLabels[i] = SKLabelNode(fontNamed: GameScene.systemFont);
             annotationLabels[i].fontSize = 6;
             annotationLabels[i].fontColor = definedFontColor;
-            annotationLabels[i].position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
-            annotationLabels[i].text = "\(i+1)"
+            annotationLabels[i].position = CGPointMake(CGFloat(xOffset+x*width/3), CGFloat(yOffset-1*y*width/3));
+            annotationLabels[i].text = ""
+            annotationLabels[i].horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+            annotationLabels[i].verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
             //self.addChild(annotationLabels[i])
         }
+    }
+    func annotate(number:Int)
+    {
+        var found:Bool = false
+        for i in 0...8{
+            if(i == 4){
+                continue
+            }
+            if(annotationLabels[i].parent == nil){
+                self.addChild(annotationLabels[i])
+            }
+            
+            if(annotationLabels[i].text == String(number)){
+                found = true
+            }
+            if(!found){
+                if(annotationLabels[i].text == ""){
+                    annotationLabels[i].text = String(number)
+                    break
+                }else{
+                    continue
+                }
+            }else{
+                if(i<8){
+                    if(i == 3){
+                        annotationLabels[i].text = annotationLabels[i+2].text
+                    }else{
+                        annotationLabels[i].text = annotationLabels[i+1].text
+                    }
+                }
+            }
+        }
+
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -143,9 +185,6 @@ class GridCell:SKNode
         }
     }
 }
-
-
-
 class GameScene: SKScene,GameSceneDelegation
 {
     class var systemFont:String {
@@ -384,9 +423,10 @@ class NumberButton: SKNode
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.gridCellControllerDelegation?.setNumber(self.i)
-        bgNode.runAction(SKAction.fadeAlphaTo(0.6, duration: 0.3))
+        bgNode.runAction(SKAction.fadeAlphaTo(0.2, duration: 0.3),withKey:"touchDown")
     }
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        bgNode.removeActionForKey("touchDown")
         bgNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.1))
     }
     required init?(coder aDecoder: NSCoder) {
@@ -473,7 +513,8 @@ class GridCellController:GridCellDelegation
         }
     }
     func setAnnotation(number: Int) {
-        println("\(number)")
+        let currentCell:GridCell = self.cells[self.currentPos.x][self.currentPos.y];
+        currentCell.annotate(number)
     }
     func isBoardComplete() ->Bool
     {
