@@ -256,9 +256,18 @@ class GameScene: SKScene,GameSceneDelegation
     func makeNumberButtons()
     {
         let xoffset = 10.0;
-        let yoffset = -320.0;
+        let yoffset = -350.0;
         let p = 5.0;
         let numberOfColumnPerRow = 3.0
+        
+        var numberButtonLabel = SKLabelNode(fontNamed: GameScene.systemFont)
+        numberButtonLabel.text = "Number"
+        numberButtonLabel.fontSize = 16
+        numberButtonLabel.position = CGPointMake(CGFloat(xoffset), CGFloat(yoffset+16))
+        numberButtonLabel.fontColor = SKColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
+        numberButtonLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        addChild(numberButtonLabel)
+        
         for(var i=1; i<10; i++){
             let _i = Double(i);
             var numberButton = NumberButton(buttonIndex: i);
@@ -272,9 +281,18 @@ class GameScene: SKScene,GameSceneDelegation
     func makeAnnotationNumberButtons()
     {
         let xoffset = 120.0;
-        let yoffset = -320.0;
+        let yoffset = -350.0;
         let p = 5.0;
         let numberOfColumnPerRow = 3.0
+        
+        var numberButtonLabel = SKLabelNode(fontNamed: GameScene.systemFont)
+        numberButtonLabel.text = "Annotation"
+        numberButtonLabel.fontSize = 16
+        numberButtonLabel.position = CGPointMake(CGFloat(xoffset), CGFloat(yoffset+16))
+        numberButtonLabel.fontColor = SKColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
+        numberButtonLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        addChild(numberButtonLabel)
+        
         for(var i=1; i<10; i++){
             let _i = Double(i);
             var numberButton = AnnotationNumberButton(buttonIndex: i);

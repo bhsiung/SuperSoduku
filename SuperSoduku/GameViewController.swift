@@ -20,6 +20,8 @@ class GameViewController: UIViewController,GameControllerDelegation {
 
     let bannerHeight:CGFloat = 50
     override func viewDidLoad() {
+        println("\(UserProfile.playCount),\(UserProfile.lv)")
+        UserProfile.playCount++
         super.viewDidLoad()
         goDifficultySelector()
         //goGame()
@@ -88,5 +90,57 @@ class GameViewController: UIViewController,GameControllerDelegation {
     }
     func quitFromGame() {
         goDifficultySelector()
+    }
+}
+class UserProfile
+{
+    class var playCount:Int{
+        get{
+            if var v:Int = UserProfile.getValue("playCount") as? Int{
+                return v;
+            }else{
+                return 0;
+            }
+        }
+        set{
+            var v:Int = UserProfile.playCount as Int
+            UserProfile.setValue("playCount", value: newValue)
+        }
+    }
+    class var exp:Int{
+        get{
+            if var v:Int = UserProfile.getValue("playCount") as? Int{
+                return v;
+            }else{
+                return 0;
+            }
+        }
+        set{
+            var v:Int = UserProfile.playCount as Int
+            UserProfile.setValue("playCount", value: newValue)
+        }
+    }
+    class var lv:Int{
+        // 50,130=50*2.6,338=50*2.6*2.6...
+        var currentExp = Float(UserProfile.exp)
+        currentExp = 10000
+        var level:Float = 0
+        var baseExp:Float = 50
+        var requiredExp:Float = baseExp
+        let maxLevel:Float = 100
+        while(requiredExp < currentExp && level < maxLevel){
+            requiredExp += baseExp * pow(1.1,level);
+            println("require exp for lv:\(level) = \(requiredExp)");
+            level++
+        }
+        return Int(level)
+    }
+    class func getValue(key:String)->AnyObject?
+    {
+        return NSUserDefaults.standardUserDefaults().objectForKey(key)
+    }
+    class func setValue(key:String,value:AnyObject)
+    {
+        NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
     }
 }
