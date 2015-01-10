@@ -20,17 +20,14 @@ class GameViewController: UIViewController,GameControllerDelegation {
 
     let bannerHeight:CGFloat = 50
     override func viewDidLoad() {
-        println("\(UserProfile.playCount),\(UserProfile.lv)")
         UserProfile.playCount++
         super.viewDidLoad()
-        goDifficultySelector()
-        //goGame()
-        
-    }
-    override func viewDidAppear(animated: Bool) {
         var adView:ADBannerView = ADBannerView(frame:
             CGRectMake(0, view.frame.size.height-bannerHeight, 320, bannerHeight));
         self.view.addSubview(adView)
+        goDifficultySelector()
+        //goGame()
+        
     }
     func goGame(d:GameDifficulty)
     {
@@ -109,7 +106,7 @@ class UserProfile
     }
     class var exp:Int{
         get{
-            if var v:Int = UserProfile.getValue("playCount") as? Int{
+            if var v:Int = UserProfile.getValue("exp") as? Int{
                 return v;
             }else{
                 return 0;
@@ -117,21 +114,20 @@ class UserProfile
         }
         set{
             var v:Int = UserProfile.playCount as Int
-            UserProfile.setValue("playCount", value: newValue)
+            UserProfile.setValue("exp", value: newValue)
         }
     }
     class var lv:Int{
         // 50,130=50*2.6,338=50*2.6*2.6...
         var currentExp = Float(UserProfile.exp)
-        currentExp = 10000
         var level:Float = 0
         var baseExp:Float = 50
         var requiredExp:Float = baseExp
         let maxLevel:Float = 100
-        while(requiredExp < currentExp && level < maxLevel){
+        while(requiredExp <= currentExp && level < maxLevel){
             requiredExp += baseExp * pow(1.1,level);
-            println("require exp for lv:\(level) = \(requiredExp)");
             level++
+            //println("require exp for lv:\(level) = \(requiredExp)");
         }
         return Int(level)
     }

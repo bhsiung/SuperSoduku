@@ -33,6 +33,7 @@ enum GameDifficulty:Int{
             return "Nightmare";
         }
     }
+    
     var cellShouldBeFixed: Bool{
         let diceRoll = Int(arc4random_uniform(100))
         switch self{
@@ -46,6 +47,34 @@ enum GameDifficulty:Int{
             return diceRoll > 70;
         case nightmare:
             return diceRoll > 90;
+        }
+    }
+    var expGain: Int{
+        switch self{
+        case easy:
+            return 25;
+        case intermedia:
+            return 40;
+        case hard:
+            return 70;
+        case insane:
+            return 120;
+        case nightmare:
+            return 200;
+        }
+    }
+    var isUnlocked: Bool{
+        switch self{
+        case easy:
+            return UserProfile.lv >= 0;
+        case intermedia:
+            return UserProfile.lv > 2;
+        case hard:
+            return UserProfile.lv > 4;
+        case insane:
+            return UserProfile.lv > 6;
+        case nightmare:
+            return UserProfile.lv > 8;
         }
     }
 }
@@ -308,6 +337,7 @@ class GameScene: SKScene,GameSceneDelegation
     }
     func complete() {
         CompleteEffect.complete(self,score:1234)
+        UserProfile.exp += difficulty.expGain
     }
 }
 class CompleteEffect: SKNode
