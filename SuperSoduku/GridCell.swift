@@ -19,6 +19,7 @@ class GridCell:SKNode
     var colorFlagNode:SKShapeNode
     let colorFlagPadding:Float = 4
     var color:GridCellColor = GridCellColor.clear
+    let colorErrorIndicator: SKShapeNode
     
     let errorFontColor:SKColor = SKColor.redColor()
     let normalFontColor:SKColor = SKColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1)
@@ -45,6 +46,17 @@ class GridCell:SKNode
         self.colorFlagNode.strokeColor = SKColor.clearColor()
         self.colorFlagNode.position = CGPointMake(CGFloat(colorFlagPadding), CGFloat(colorFlagPadding - width));
         
+        var points:[(x:CGFloat,y:CGFloat)] = [(x:0,y:4),(x:4,y:0),(x:0,y:0)]
+        var path = CGPathCreateMutable()
+        CGPathMoveToPoint(path, nil, points[0].x, points[0].y)
+        CGPathAddLineToPoint(path, nil, points[1].x, points[1].y)
+        CGPathAddLineToPoint(path, nil, points[2].x, points[2].y)
+        self.colorErrorIndicator = SKShapeNode(path: path)
+        self.colorErrorIndicator.fillColor = SKColor.redColor()
+        self.colorErrorIndicator.strokeColor = SKColor.clearColor()
+        self.colorErrorIndicator.position = self.colorFlagNode.position
+        self.colorErrorIndicator.alpha = 0
+        
         self.numberNode = SKLabelNode(fontNamed: GameScene.systemFont);
         self.numberNode.fontSize = fontSize;
         if(isFixed){
@@ -70,6 +82,7 @@ class GridCell:SKNode
         self.addChild(bgNode)
         self.addChild(numberNode)
         self.addChild(colorFlagNode)
+        self.addChild(colorErrorIndicator)
     }
     func setBackgroundColor(newColor:GridCellColor)
     {
@@ -136,6 +149,10 @@ class GridCell:SKNode
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         if(!self.isFixed){
             self.controllerDelegate?.moveCursor(Pos(x:self.x,y:self.y));
+        }else{
+            if(!self.isFixedColor){
+                self.controllerDelegate?.moveCursor(Pos(x:self.x,y:self.y));
+            }
         }
     }
     func startFlashing()
@@ -164,16 +181,14 @@ class GridCell:SKNode
     }
     func errorColor()
     {
-        if(!self.isFixed){
-            //todo
-            //self.numberNode.fontColor = errorFontColor;
+        if(!self.isFixedColor){
+            colorErrorIndicator.alpha = 1
         }
     }
     func unerrorColor()
     {
-        if(!self.isFixed){
-            //todo
-            //self.numberNode.fontColor = normalFontColor;
+        if(!self.isFixedColor){
+            colorErrorIndicator.alpha = 0
         }
     }
 }
@@ -241,6 +256,9 @@ class GridCellController:GridCellDelegation
     func setNumber(number:Int,isAnnotation:Bool = false)
     {
         let currentCell:GridCell = self.cells[self.currentPos.x][self.currentPos.y];
+        if(currentCell.isFixed){
+            return
+        }
         if(isAnnotation){
             currentCell.annotate(number)
         }else{
@@ -260,6 +278,9 @@ class GridCellController:GridCellDelegation
     func setColor(color:GridCellColor,isAnnotation:Bool = false)
     {
         let currentCell:GridCell = self.cells[self.currentPos.x][self.currentPos.y];
+        if(currentCell.isFixedColor){
+            return
+        }
         if(isAnnotation){
             //currentCell.annotate(number)
         }else{
@@ -312,18 +333,19 @@ class GridCellController:GridCellDelegation
     }
     func validate(pos:Pos)->Bool
     {
-        cells[pos.x][pos.y].error()
-        if(!validateRow(pos.x,y:pos.y)){
-            return false
+        if(cells[pos.x][pos.y].number != nil){
+            cells[pos.x][pos.y].error()
+            if(!validateRow(pos.x,y:pos.y)){
+                return false
+            }
+            if(!validateCol(pos.x,y:pos.y)){
+                return false
+            }
+            if(!validateGroup(pos.x,y:pos.y)){
+                return false
+            }
+            cells[pos.x][pos.y].unerror()
         }
-        if(!validateCol(pos.x,y:pos.y)){
-            return false
-        }
-        if(!validateGroup(pos.x,y:pos.y)){
-            return false
-        }
-        cells[pos.x][pos.y].unerror()
-        
         if(difficulty.dimension >= 2){
             cells[pos.x][pos.y].errorColor()
             if(!validateRow(pos.x,y:pos.y,isColor: true)){

@@ -93,15 +93,15 @@ enum GameDifficulty:Int{
         let diceRoll = Int(arc4random_uniform(100))
         switch self{
         case easy:
-            return diceRoll > 5;
+            return diceRoll > 10;
         case normal:
-            return diceRoll > 30;
+            return diceRoll > 50;
         case hard:
-            return diceRoll > 50;
-        case insane:
-            return diceRoll > 10
+            return diceRoll > 70;
         case expert:
-            return diceRoll > 50;
+            return diceRoll > 10;
+        case insane:
+            return diceRoll > 50
         case nightmare:
             return diceRoll > 70;
         }
