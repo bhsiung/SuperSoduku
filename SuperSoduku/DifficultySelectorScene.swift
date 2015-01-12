@@ -22,7 +22,7 @@ class DifficultySelectorScene: SKScene
     {
         let lines:[(CGFloat,String)] = [(16,"level: \(UserProfile.lv)"),(16,"EXP: \(UserProfile.exp)")]
         var i = 0
-        let yoffset:CGFloat = 60
+        let yoffset:CGFloat = 500
         let xoffset:CGFloat = 10
         for (fontSize,text) in lines{
             var levelLabel = SKLabelNode(fontNamed: DifficultySelectorScene.systemFont)
@@ -33,7 +33,7 @@ class DifficultySelectorScene: SKScene
             var y = Float(i) * Float(fontSize) * Float(1.6)
             levelLabel.position = CGPointMake(
                 self.view!.frame.width - xoffset,
-                yoffset + (self.view!.frame.height * -1) + CGFloat(y))
+                (yoffset * -1) + CGFloat(y))
             addChild(levelLabel)
             i++
         }

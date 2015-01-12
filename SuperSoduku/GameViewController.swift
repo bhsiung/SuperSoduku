@@ -53,12 +53,15 @@ class GameViewController: UIViewController,GameControllerDelegation {
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         
+
+        
         scene.scaleMode = .ResizeFill
         scene.anchorPoint = CGPoint(x:0,y:1);
-        scene.size = CGSizeMake(skView.bounds.size.width, skView.bounds.size.height-bannerHeight)
+        scene.size = CGSizeMake(skView.bounds.size.width, skView.bounds.size.height)
         scene.gameControllerDelegation = self
         
         skView.presentScene(scene)
+                println("\(skView.bounds.size),\(scene.size)")
     }
 
     override func shouldAutorotate() -> Bool {

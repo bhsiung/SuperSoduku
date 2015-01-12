@@ -16,6 +16,8 @@
 		E59754CE1A457E710033D998 /* SuperSodukuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59754CD1A457E710033D998 /* SuperSodukuTests.swift */; };
 		E5BC08761A535F7C00ACEABD /* grid_big.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BC08751A535F7C00ACEABD /* grid_big.png */; };
 		E5BC088A1A53A1F100ACEABD /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BC08891A53A1F100ACEABD /* Regex.swift */; };
+		E5F293171A63BEEF00AF5587 /* MetaClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F293161A63BEEF00AF5587 /* MetaClasses.swift */; };
+		E5F293191A63BF1B00AF5587 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F293181A63BF1B00AF5587 /* GridCell.swift */; };
 		E5F39FEF1A563C6300EBD6D0 /* DifficultySelectorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F39FEE1A563C6300EBD6D0 /* DifficultySelectorScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,8 @@
 		E59754CD1A457E710033D998 /* SuperSodukuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSodukuTests.swift; sourceTree = "<group>"; };
 		E5BC08751A535F7C00ACEABD /* grid_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid_big.png; sourceTree = SOURCE_ROOT; };
 		E5BC08891A53A1F100ACEABD /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		E5F293161A63BEEF00AF5587 /* MetaClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaClasses.swift; sourceTree = "<group>"; };
+		E5F293181A63BF1B00AF5587 /* GridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		E5F39FEE1A563C6300EBD6D0 /* DifficultySelectorScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DifficultySelectorScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,10 +93,12 @@
 			children = (
 				E59754B31A457E710033D998 /* AppDelegate.swift */,
 				E59754B71A457E710033D998 /* GameScene.swift */,
+				E5F293181A63BF1B00AF5587 /* GridCell.swift */,
 				E5F39FEE1A563C6300EBD6D0 /* DifficultySelectorScene.swift */,
 				E59754B91A457E710033D998 /* GameViewController.swift */,
 				E59754BB1A457E710033D998 /* Main.storyboard */,
 				E5BC08891A53A1F100ACEABD /* Regex.swift */,
+				E5F293161A63BEEF00AF5587 /* MetaClasses.swift */,
 				E59754BE1A457E710033D998 /* Images.xcassets */,
 				E59754B11A457E710033D998 /* Supporting Files */,
 			);
@@ -227,7 +233,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59754B81A457E710033D998 /* GameScene.swift in Sources */,
+				E5F293171A63BEEF00AF5587 /* MetaClasses.swift in Sources */,
 				E5BC088A1A53A1F100ACEABD /* Regex.swift in Sources */,
+				E5F293191A63BF1B00AF5587 /* GridCell.swift in Sources */,
 				E59754BA1A457E710033D998 /* GameViewController.swift in Sources */,
 				E5F39FEF1A563C6300EBD6D0 /* DifficultySelectorScene.swift in Sources */,
 				E59754B41A457E710033D998 /* AppDelegate.swift in Sources */,
