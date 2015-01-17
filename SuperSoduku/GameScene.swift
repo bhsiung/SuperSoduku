@@ -49,24 +49,34 @@ class GameScene: SKScene,GameSceneDelegation
     func makeUtil()
     {
         var exitButtonNode = SKLabelNode(fontNamed: exitButtonFont)
-        exitButtonNode.text = "quit"
+        exitButtonNode.text = "QUIT"
         exitButtonNode.fontSize = 18
-        let y:CGFloat = 80;
-        let x:CGFloat = 270;
+        let y:CGFloat = 75;
+        let x:CGFloat = 268;
         exitButtonNode.position = CGPointMake(x, -1*(self.frame.height-y))
-        exitButtonNode.fontColor = SKColor.blackColor()
+        exitButtonNode.fontColor = SKColor.whiteColor()
         exitButtonNode.name = "exit-button"
+        exitButtonNode.fontName = GameScene.systemFont
+        exitButtonNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        
+        let bgNode = SKShapeNode(path: CGPathCreateWithRoundedRect(
+            CGRectMake(0, 0, 80, 30), 4, 4, nil));
+        bgNode.strokeColor = SKColor.clearColor()
+        bgNode.fillColor = GridCellColor.red.color
+        bgNode.position = CGPointMake(x-bgNode.frame.width/2, -1*(self.frame.height-y+bgNode.frame.height/2))
+
+        self.addChild(bgNode)
         self.addChild(exitButtonNode)
     }
     func makeGrid()
     {
-        let offsetX:Float = 10, offsetY:Float = -10;
+        let offsetX:Float = 10, offsetY:Float = -30;
         self.gridCellController = GridCellController(width: 300, numberOfRow: 9, scene: self,x: offsetX,y: offsetY,d: self.difficulty);
     }
     func makeNumberButtons()
     {
         let xoffset = 10.0;
-        let yoffset = -350.0;
+        let yoffset = -370.0;
         let p = 5.0;
         let numberOfColumnPerRow = 3.0
         
@@ -77,6 +87,7 @@ class GameScene: SKScene,GameSceneDelegation
         numberButtonLabel.fontColor = SKColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         numberButtonLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         addChild(numberButtonLabel)
+        var lastNumberButton:NumberButton = NumberButton(buttonIndex: 0)
         
         for(var i=1; i<10; i++){
             let _i = Double(i);
@@ -86,12 +97,19 @@ class GameScene: SKScene,GameSceneDelegation
             var newY = CGFloat(yoffset - (w+p)*floor((_i-1.0)/numberOfColumnPerRow))
             numberButton.position = CGPointMake(CGFloat(xoffset+((_i-1)%numberOfColumnPerRow)*(w+p)), newY);
             self.addChild(numberButton)
+            lastNumberButton = numberButton
         }
+        var clearButton = ClearButton()
+        clearButton.gridCellControllerDelegation = gridCellController
+        clearButton.position = CGPointMake(CGFloat(xoffset),
+            lastNumberButton.position.y - CGFloat(lastNumberButton.width) - CGFloat(p))
+        addChild(clearButton)
+        
     }
     func makeColorButtons()
     {
         let xoffset = 120.0;
-        let yoffset = -350.0;
+        let yoffset = -370.0;
         let p = 5.0;
         let numberOfColumnPerRow = 3.0
         
@@ -102,16 +120,23 @@ class GameScene: SKScene,GameSceneDelegation
         numberButtonLabel.fontColor = SKColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         numberButtonLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         addChild(numberButtonLabel)
+        var lastColorButton:ColorButton = ColorButton(index: 0)
         
         for(var i=1; i<10; i++){
             let _i = Double(i);
-            var numberButton = ColorButton(index: i)
-            numberButton.gridCellControllerDelegation = gridCellController
-            var w = Double(numberButton.width)
+            var button = ColorButton(index: i)
+            button.gridCellControllerDelegation = gridCellController
+            var w = Double(button.width)
             var newY = CGFloat(yoffset - (w+p)*floor((_i-1.0)/numberOfColumnPerRow))
-            numberButton.position = CGPointMake(CGFloat(xoffset+((_i-1)%numberOfColumnPerRow)*(w+p)), newY);
-            self.addChild(numberButton)
+            button.position = CGPointMake(CGFloat(xoffset+((_i-1)%numberOfColumnPerRow)*(w+p)), newY);
+            self.addChild(button)
+            lastColorButton = button
         }
+        var clearButton = ClearColorButton()
+        clearButton.gridCellControllerDelegation = gridCellController
+        clearButton.position = CGPointMake(CGFloat(xoffset),
+            lastColorButton.position.y - CGFloat(lastColorButton.width) - CGFloat(p))
+        addChild(clearButton)
     }
     func userSetNumber(i: Int) {
         self.gridCellController?.setNumber(i)
@@ -261,6 +286,48 @@ class NumberButton: SKNode
         fatalError("init(coder:) has not been implemented")
     }
 }
+class ClearButton:SKNode
+{
+    let bgNode:SKShapeNode
+    let labelNode:SKLabelNode
+    let width = 100.0
+    let height = 30.0
+    let fontSize:CGFloat = 18
+    var gridCellControllerDelegation:GridCellDelegation?
+    override init()
+    {
+        self.bgNode = SKShapeNode(path: CGPathCreateWithRoundedRect(
+            CGRectMake(0, 0, CGFloat(width), CGFloat(height)), 4, 4, nil));
+        self.bgNode.strokeColor = SKColor.clearColor()
+        self.bgNode.fillColor = GridCellColor.orange.color
+        self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * height));
+        
+        self.labelNode = SKLabelNode(fontNamed: GameScene.systemFont);
+        self.labelNode.fontSize = fontSize;
+        self.labelNode.fontColor = SKColor.whiteColor()
+        
+        self.labelNode.position = CGPointMake(CGFloat(width/2), CGFloat(-1*height/2));
+        self.labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        self.labelNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        self.labelNode.text = "CLEAR"
+        
+        super.init();
+        self.userInteractionEnabled = true;
+        self.addChild(bgNode)
+        self.addChild(labelNode)
+    }
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.gridCellControllerDelegation?.clearNumber()
+        bgNode.runAction(SKAction.fadeAlphaTo(0.2, duration: 0.3),withKey:"touchDown")
+    }
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        bgNode.removeActionForKey("touchDown")
+        bgNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.1))
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 class ColorButton:SKNode
 {
     var color:GridCellColor
@@ -290,5 +357,12 @@ class ColorButton:SKNode
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+class ClearColorButton:ClearButton
+{
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.gridCellControllerDelegation?.clearColor()
+        bgNode.runAction(SKAction.fadeAlphaTo(0.2, duration: 0.3),withKey:"touchDown")
     }
 }

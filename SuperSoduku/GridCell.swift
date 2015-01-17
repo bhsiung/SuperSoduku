@@ -29,8 +29,19 @@ class GridCell:SKNode
     
     var number:Int?{
         didSet{
-            self.numberNode.text = String(format: "%d", number!);
+            if(number == nil){
+                self.numberNode.text = "";
+                unerror()
+            }else{
+                self.numberNode.text = String(format: "%d", number!);
+            }
         }
+    }
+    var total:Int{
+        if(number != nil){
+            return number! * 9 + color.toInt();
+        }
+        return 0;
     }
     init(x:Int,y:Int,width:Float,isFixed:Bool,backgroundColor: SKColor,isFixedColor:Bool)
     {
@@ -60,14 +71,14 @@ class GridCell:SKNode
         self.numberNode = SKLabelNode(fontNamed: GameScene.systemFont);
         self.numberNode.fontSize = fontSize;
         if(isFixed){
-            self.numberNode.fontColor = definedFontColor;
-        }else{
-            self.numberNode.fontColor = normalFontColor;
+            self.numberNode.fontName = "Futura-CondensedExtraBold"
         }
+        self.numberNode.fontColor = normalFontColor;
         self.numberNode.position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
         self.numberNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         self.numberNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.numberNode.text = ""
+        self.numberNode.zPosition = 3
         self.annotationLabels = Array<SKLabelNode>()
         
         self.x = x
@@ -88,6 +99,9 @@ class GridCell:SKNode
     {
         color = newColor
         colorFlagNode.fillColor = color.color
+        if(newColor == GridCellColor.clear){
+            unerrorColor()
+        }
     }
     func makeAnnotation()
     {
@@ -147,12 +161,8 @@ class GridCell:SKNode
         fatalError("init(coder:) has not been implemented")
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        if(!self.isFixed){
+        if(!self.isFixed || !self.isFixedColor){
             self.controllerDelegate?.moveCursor(Pos(x:self.x,y:self.y));
-        }else{
-            if(!self.isFixedColor){
-                self.controllerDelegate?.moveCursor(Pos(x:self.x,y:self.y));
-            }
         }
     }
     func startFlashing()
@@ -202,7 +212,6 @@ class GridCellController:GridCellDelegation
     
     var currentPos:Pos{
         willSet{
-            println("\(self.currentPos.x),\(newValue.x)")
             cells[self.currentPos.x][self.currentPos.y].stopFlashing()
             cells[newValue.x][newValue.y].startFlashing()
         }
@@ -275,6 +284,14 @@ class GridCellController:GridCellDelegation
             }
         }
     }
+    func clearNumber()
+    {
+        let currentCell:GridCell = self.cells[self.currentPos.x][self.currentPos.y];
+        if(currentCell.isFixed){
+            return
+        }
+        currentCell.number = nil
+    }
     func setColor(color:GridCellColor,isAnnotation:Bool = false)
     {
         let currentCell:GridCell = self.cells[self.currentPos.x][self.currentPos.y];
@@ -296,6 +313,14 @@ class GridCellController:GridCellDelegation
                 currentCell.error();
             }
         }
+    }
+    func clearColor()
+    {
+        let currentCell:GridCell = self.cells[self.currentPos.x][self.currentPos.y];
+        if(currentCell.isFixed){
+            return
+        }
+        currentCell.setBackgroundColor(GridCellColor.clear)
     }
     func isBoardComplete() ->Bool
     {
@@ -347,6 +372,9 @@ class GridCellController:GridCellDelegation
             cells[pos.x][pos.y].unerror()
         }
         if(difficulty.dimension >= 2){
+            if(cells[pos.x][pos.y].color == GridCellColor.clear){
+                return false
+            }
             cells[pos.x][pos.y].errorColor()
             if(!validateRow(pos.x,y:pos.y,isColor: true)){
                 return false
@@ -358,6 +386,13 @@ class GridCellController:GridCellDelegation
                 return false
             }
             cells[pos.x][pos.y].unerrorColor()
+        }
+        if(cells[pos.x][pos.y].number != nil &&
+            cells[pos.x][pos.y].color != GridCellColor.clear &&
+            !validateColorNumberMatch(pos.x, y: pos.y)){
+            cells[pos.x][pos.y].errorColor()
+            cells[pos.x][pos.y].error()
+            return false
         }
         return true;
     }
@@ -398,6 +433,23 @@ class GridCellController:GridCellDelegation
                     return false
                 }else if(isColor && _y != y && _x != x && cells[x][y].color == cells[_x][_y].color){
                     return false
+                }
+            }
+        }
+        return true;
+    }
+    func validateColorNumberMatch(x:Int,y:Int)->Bool
+    {
+        for _x in 0 ... numberOfRow - 1 {
+            for _y in 0 ... numberOfRow - 1{
+                if(cells[_x][_y].color == GridCellColor.clear){
+                    continue
+                }
+                if(cells[_x][_y].number == nil){
+                    continue
+                }
+                if(x != _x && y != _y && cells[x][y].total == cells[_x][_y].total){
+                    return false;
                 }
             }
         }
