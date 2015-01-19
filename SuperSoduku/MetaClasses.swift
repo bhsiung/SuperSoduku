@@ -60,19 +60,19 @@ enum GridCellColor:Int{
         case clear:
             return SKColor.clearColor()
         case red:
-            return SKColor(red: 0.81, green: 0.627, blue: 0.564, alpha: 1)
+            return SKColor(red: 0.988, green: 0.533, blue: 0.415, alpha: 1)
         case orange:
             return SKColor(red: 0.996, green: 0.796,blue: 0.573, alpha: 1)
         case .yellow:
-            return SKColor(red: 0.894, green: 0.851,blue: 0.671, alpha: 1)
+            return SKColor(red: 1.0, green: 0.968,blue: 0.49, alpha: 1)
         case green:
             return SKColor(red: 0.675, green: 0.765,blue: 0.420, alpha: 1)
         case blue:
             return SKColor(red: 0.525, green: 0.714,blue: 0.792, alpha: 1)
         case .purple:
-            return SKColor(red: 0.616, green: 0.647,blue: 0.929, alpha: 1)
+            return SKColor(red: 0.796, green: 0.564,blue: 0.878, alpha: 1)
         case .gray:
-            return SKColor(red: 0.831, green: 0.773,blue: 0.745, alpha: 1)
+            return SKColor(red: 0.773, green: 0.773,blue: 0.745, alpha: 1)
         case cyan:
             return SKColor(red: 0.125, green: 0.753,blue: 0.745, alpha: 1)
         case .brown:

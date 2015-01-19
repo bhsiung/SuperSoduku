@@ -37,11 +37,11 @@ class UserProfile
 {
     class var playCount:Int{
         get{
-        if var v:Int = UserProfile.getValue("playCount") as? Int{
-        return v;
-    }else{
-        return 0;
-        }
+            if var v:Int = UserProfile.getValue("playCount") as? Int{
+                return v;
+            }else{
+                return 0;
+            }
         }
         set{
             var v:Int = UserProfile.playCount as Int
@@ -50,11 +50,11 @@ class UserProfile
     }
     class var exp:Int{
         get{
-        if var v:Int = UserProfile.getValue("exp") as? Int{
-        return v;
-    }else{
-        return 0;
-        }
+            if var v:Int = UserProfile.getValue("exp") as? Int{
+                return v;
+            }else{
+                return 0;
+            }
         }
         set{
             var v:Int = UserProfile.playCount as Int
@@ -88,15 +88,19 @@ class UserProfile
 class DifficultySelectorScene: SKScene
 {
     var difficultyControllerDelegation: DifficultyControllerDelegation?
+    var bannerHeight:CGFloat = 50
     class var systemFont:String {
         return "Futura-Medium"
     }
     override func didMoveToView(view: SKView)
     {
-        UserProfile.exp = 30
+        UserProfile.exp = 3000
         self.backgroundColor = SKColor(red: 0.788, green: 0.788, blue: 0.788, alpha: 1)
         var logoNode = SKSpriteNode(imageNamed: "logo")
-        logoNode.position = CGPointMake(CGFloat((view.frame.width-logoNode.frame.width)/2), -0)
+        println("\(view.frame),\(logoNode.frame)")
+        // assume logo is square
+        logoNode.size = CGSizeMake(self.frame.width, self.frame.width)
+        logoNode.position = CGPointMake(CGFloat((self.frame.width-logoNode.frame.width)/2), -0)
         logoNode.anchorPoint = CGPointMake(0, 1)
         self.addChild(logoNode)
         createSelector()
@@ -104,34 +108,41 @@ class DifficultySelectorScene: SKScene
     }
     func createUserInfo()
     {
-        let lines:[(CGFloat,String)] = [(16,"level: \(UserProfile.lv)"),(16,"EXP: \(UserProfile.exp)")]
-        var i = 0
-        let yoffset:CGFloat = 500
+        let lines:[(CGFloat,String)] = [(16,"level: \(UserProfile.lv)"),(16,"EXP: \(UserProfile.exp)"),(13,"User profile:")]
+        let bottomPadding:CGFloat = 15
+        let yoffset:CGFloat = -1 * frame.height + bannerHeight + bottomPadding
         let xoffset:CGFloat = 10
+        var y:CGFloat = yoffset
+        
+        
         for (fontSize,text) in lines{
+
             var levelLabel = SKLabelNode(fontNamed: DifficultySelectorScene.systemFont)
             levelLabel.fontSize = fontSize
             levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
             levelLabel.fontColor = SKColor.blackColor()
             levelLabel.text = text
-            var y = Float(i) * Float(fontSize) * Float(1.6)
             levelLabel.position = CGPointMake(
-                self.view!.frame.width - xoffset,
-                (yoffset * -1) + CGFloat(y))
+                self.view!.frame.width - xoffset,y)
             addChild(levelLabel)
-            i++
+            y += fontSize * 1.6
         }
     }
     func createSelector()
     {
         var i = 0
-        let yOffset:CGFloat = -250
         let h:CGFloat = 25;
         let w:CGFloat = 80
         let padding:CGFloat = 10
+        let yOffset:CGFloat = CGRectGetMidY(frame) + h * CGFloat(GameDifficulty.allValues.count) / 2
+        let xOffset:CGFloat = self.frame.width/2
+        
+        println("\(self.frame.width),\(w),\(xOffset)")
         for d in GameDifficulty.allValues{
             var link = GameLink(d: d,height:h,width:w)
-            link.position = CGPointMake(160,yOffset-CGFloat(i)*(h+padding))
+            link.position = CGPointMake(
+                xOffset,
+                yOffset-CGFloat(i)*(h+padding))
             link.difficultyControllerDelegation = self.difficultyControllerDelegation
             link.zPosition = 3
             addChild(link)

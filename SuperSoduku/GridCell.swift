@@ -13,11 +13,11 @@ class GridCell:SKNode
 {
     var controllerDelegate:GridCellDelegation?
     let numberNode:SKLabelNode,bgNode:SKShapeNode
-    let x:Int,y:Int,width:Float
+    let x:Int,y:Int,width:CGFloat
     let fontSize:CGFloat = 13
     var annotationLabels:[SKLabelNode]
     var colorFlagNode:SKShapeNode
-    let colorFlagPadding:Float = 4
+    let colorFlagPadding:CGFloat = 4
     var color:GridCellColor = GridCellColor.clear
     let colorErrorIndicator: SKShapeNode
     
@@ -43,7 +43,7 @@ class GridCell:SKNode
         }
         return 0;
     }
-    init(x:Int,y:Int,width:Float,isFixed:Bool,backgroundColor: SKColor,isFixedColor:Bool)
+    init(x:Int,y:Int,width:CGFloat,isFixed:Bool,backgroundColor: SKColor,isFixedColor:Bool)
     {
         self.bgNode = SKShapeNode(rect: CGRectMake(0, 0, CGFloat(width), CGFloat(width)))
         self.bgNode.fillColor = backgroundColor
@@ -51,7 +51,7 @@ class GridCell:SKNode
         self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * width));
         
         self.colorFlagNode = SKShapeNode(path: CGPathCreateWithRoundedRect(
-            CGRectMake(0, 0, CGFloat(width - colorFlagPadding * Float(2)), CGFloat(width - colorFlagPadding * Float(2))),
+            CGRectMake(0, 0, width - colorFlagPadding * 2, width - colorFlagPadding * 2),
             3, 3, nil));
         self.colorFlagNode.fillColor = SKColor.clearColor()
         self.colorFlagNode.strokeColor = SKColor.clearColor()
@@ -112,12 +112,14 @@ class GridCell:SKNode
             if(i == 4){
                 continue
             }
-            var x = Float(i%3)
-            var y = Float(floor(Double(i)/3))
+            var x = CGFloat(i%3)
+            var y = CGFloat(floor(Double(i)/3))
             annotationLabels[i] = SKLabelNode(fontNamed: GameScene.systemFont);
             annotationLabels[i].fontSize = 6;
             annotationLabels[i].fontColor = definedFontColor;
-            annotationLabels[i].position = CGPointMake(CGFloat(xOffset+x*width/3), CGFloat(yOffset-1*y*width/3));
+            annotationLabels[i].position = CGPointMake(
+                0,//xOffset + CGFloat(x) * width / 3,
+                0)//yOffset - 1 * CGFloat(y) * width / 3);
             annotationLabels[i].text = ""
             annotationLabels[i].horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
             annotationLabels[i].verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -205,7 +207,7 @@ class GridCell:SKNode
 
 class GridCellController:GridCellDelegation
 {
-    let width:Int, numberOfRow: Int, scene: SKScene
+    let width:CGFloat, numberOfRow: Int, scene: SKScene
     var cells:[[GridCell]];
     var gameSceneDelegation:GameSceneDelegation
     let difficulty:GameDifficulty
@@ -217,17 +219,17 @@ class GridCellController:GridCellDelegation
         }
     }
     
-    init(width:Int,numberOfRow:Int,scene:GameScene,x:Float,y:Float,d:GameDifficulty)
+    init(width:CGFloat,numberOfRow:Int,scene:GameScene,x:CGFloat,y:CGFloat,d:GameDifficulty)
     {
         self.width = width
         self.numberOfRow = numberOfRow
         self.scene = scene
         self.currentPos = Pos(x: 0,y: 0)
-        var cellWidth:Float = Float(width/numberOfRow);
+        var cellWidth:CGFloat = width/CGFloat(numberOfRow);
         self.cells = Array<Array<GridCell>>()
         self.difficulty = d
         self.gameSceneDelegation = scene
-        var padding:Float = 1
+        var padding:CGFloat = 1
         let xOffset = x+padding
         let yOffset = y+padding
         var cellBackgroundColor:SKColor
@@ -246,8 +248,8 @@ class GridCellController:GridCellDelegation
                     isFixedColor: self.difficulty.cellShouldBeFixed
                 );
                 gridCell.controllerDelegate = self;
-                var xMovement = Float(_x)*cellWidth;
-                var yMovement = Float(_y)*cellWidth;
+                var xMovement = CGFloat(_x)*cellWidth;
+                var yMovement = CGFloat(_y)*cellWidth;
                 gridCell.position = CGPointMake(CGFloat(xOffset+xMovement), CGFloat(yOffset-yMovement));
                 scene.addChild(gridCell)
                 self.cells[_x][_y] = gridCell;
@@ -361,28 +363,35 @@ class GridCellController:GridCellDelegation
         if(cells[pos.x][pos.y].number != nil){
             cells[pos.x][pos.y].error()
             if(!validateRow(pos.x,y:pos.y)){
+                println("0")
                 return false
             }
             if(!validateCol(pos.x,y:pos.y)){
+                                println("1")
                 return false
             }
             if(!validateGroup(pos.x,y:pos.y)){
+                                println("2")
                 return false
             }
             cells[pos.x][pos.y].unerror()
         }
         if(difficulty.dimension >= 2){
             if(cells[pos.x][pos.y].color == GridCellColor.clear){
-                return false
+                                println("3")
+                return true
             }
             cells[pos.x][pos.y].errorColor()
             if(!validateRow(pos.x,y:pos.y,isColor: true)){
+                                println("4")
                 return false
             }
             if(!validateCol(pos.x,y:pos.y,isColor: true)){
+                                println("5")
                 return false
             }
             if(!validateGroup(pos.x,y:pos.y,isColor: true)){
+                                println("6")
                 return false
             }
             cells[pos.x][pos.y].unerrorColor()
@@ -392,8 +401,10 @@ class GridCellController:GridCellDelegation
             !validateColorNumberMatch(pos.x, y: pos.y)){
             cells[pos.x][pos.y].errorColor()
             cells[pos.x][pos.y].error()
+                                println("7")
             return false
         }
+                        println("good")
         return true;
     }
     func validateRow(x:Int,y:Int,isColor:Bool = false)->Bool
