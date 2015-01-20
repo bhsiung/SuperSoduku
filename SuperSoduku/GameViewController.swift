@@ -9,10 +9,8 @@
 import UIKit
 import SpriteKit
 
-
-class GameViewController: UIViewController,GameControllerDelegation {
-
-    
+class GameViewController: UIViewController,GameControllerDelegation
+{
     var diffculty:GameDifficulty = GameDifficulty.easy
     override func viewDidLoad()
     {

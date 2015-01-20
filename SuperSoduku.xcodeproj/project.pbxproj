@@ -71,7 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				E58602A81A5D2ED500605EFF /* iAd.framework */,
-				E59754B01A457E710033D998 /* SuperSoduku */,
+				E59754B01A457E710033D998 /* SuperSudoku */,
 				E59754CA1A457E710033D998 /* SuperSodukuTests */,
 				E59754AF1A457E710033D998 /* Products */,
 			);
@@ -86,7 +86,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E59754B01A457E710033D998 /* SuperSoduku */ = {
+		E59754B01A457E710033D998 /* SuperSudoku */ = {
 			isa = PBXGroup;
 			children = (
 				E59754B31A457E710033D998 /* AppDelegate.swift */,
@@ -99,6 +99,7 @@
 				E59754BE1A457E710033D998 /* Images.xcassets */,
 				E59754B11A457E710033D998 /* Supporting Files */,
 			);
+			name = SuperSudoku;
 			path = SuperSoduku;
 			sourceTree = "<group>";
 		};
@@ -352,7 +353,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Biing-Yann HSIUNG (A5HYMT7P42)";
 				INFOPLIST_FILE = SuperSoduku/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -366,7 +367,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Biing-Yann HSIUNG (A5HYMT7P42)";
 				INFOPLIST_FILE = SuperSoduku/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -23,7 +23,6 @@ class DifficultyViewController:UIViewController,DifficultyControllerDelegation
         scene.difficultyControllerDelegation = self
         
         skView.presentScene(scene)
-        println("\(skView.bounds.size),\(scene.size)")
     }
     func difficultySelected(d: GameDifficulty) {
         if var gameVc:GameViewController = self.storyboard!.instantiateViewControllerWithIdentifier(
@@ -71,7 +70,6 @@ class UserProfile
         while(requiredExp <= currentExp && level < maxLevel){
             requiredExp += baseExp * pow(1.1,level);
             level++
-            //println("require exp for lv:\(level) = \(requiredExp)");
         }
         return Int(level)
     }
@@ -94,10 +92,8 @@ class DifficultySelectorScene: SKScene
     }
     override func didMoveToView(view: SKView)
     {
-        UserProfile.exp = 3000
         self.backgroundColor = SKColor(red: 0.788, green: 0.788, blue: 0.788, alpha: 1)
         var logoNode = SKSpriteNode(imageNamed: "logo")
-        println("\(view.frame),\(logoNode.frame)")
         // assume logo is square
         logoNode.size = CGSizeMake(self.frame.width, self.frame.width)
         logoNode.position = CGPointMake(CGFloat((self.frame.width-logoNode.frame.width)/2), -0)
@@ -137,7 +133,6 @@ class DifficultySelectorScene: SKScene
         let yOffset:CGFloat = CGRectGetMidY(frame) + h * CGFloat(GameDifficulty.allValues.count) / 2
         let xOffset:CGFloat = self.frame.width/2
         
-        println("\(self.frame.width),\(w),\(xOffset)")
         for d in GameDifficulty.allValues{
             var link = GameLink(d: d,height:h,width:w)
             link.position = CGPointMake(

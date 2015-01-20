@@ -363,35 +363,28 @@ class GridCellController:GridCellDelegation
         if(cells[pos.x][pos.y].number != nil){
             cells[pos.x][pos.y].error()
             if(!validateRow(pos.x,y:pos.y)){
-                println("0")
                 return false
             }
             if(!validateCol(pos.x,y:pos.y)){
-                                println("1")
                 return false
             }
             if(!validateGroup(pos.x,y:pos.y)){
-                                println("2")
                 return false
             }
             cells[pos.x][pos.y].unerror()
         }
         if(difficulty.dimension >= 2){
             if(cells[pos.x][pos.y].color == GridCellColor.clear){
-                                println("3")
                 return true
             }
             cells[pos.x][pos.y].errorColor()
             if(!validateRow(pos.x,y:pos.y,isColor: true)){
-                                println("4")
                 return false
             }
             if(!validateCol(pos.x,y:pos.y,isColor: true)){
-                                println("5")
                 return false
             }
             if(!validateGroup(pos.x,y:pos.y,isColor: true)){
-                                println("6")
                 return false
             }
             cells[pos.x][pos.y].unerrorColor()
@@ -401,10 +394,8 @@ class GridCellController:GridCellDelegation
             !validateColorNumberMatch(pos.x, y: pos.y)){
             cells[pos.x][pos.y].errorColor()
             cells[pos.x][pos.y].error()
-                                println("7")
             return false
         }
-                        println("good")
         return true;
     }
     func validateRow(x:Int,y:Int,isColor:Bool = false)->Bool
@@ -437,7 +428,6 @@ class GridCellController:GridCellDelegation
         let xEnd = xStart+Int(groupSize)-1
         let yStart = Int(floorf(Float(y)/groupSize)*groupSize);
         let yEnd = yStart+Int(groupSize)-1
-        //println("(\(xStart)...\(xEnd)),(\(yStart)...\(yEnd)) pos:(\(x),\(y)), num: \(cells[x][y].number)")
         for(var _x=xStart; _x<=xEnd; _x++){
             for(var _y=yStart; _y<=yEnd; _y++){
                 if(!isColor && _y != y && _x != x && cells[x][y].number == cells[_x][_y].number){
