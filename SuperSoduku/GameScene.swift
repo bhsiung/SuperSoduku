@@ -20,7 +20,9 @@ class GameScene: SKScene,GameSceneDelegation
     var difficulty:GameDifficulty = GameDifficulty.easy
     var gameControllerDelegation: GameControllerDelegation?
     var gridCellController:GridCellController?
-    let bannerHeight:CGFloat = 50
+    var bannerHeight:CGFloat {
+        return self.frame.height > 480 ? 50 : 0
+    }
     override func didMoveToView(view: SKView) {
         makeGrid()
         makeNumberButtons()
@@ -90,19 +92,22 @@ class GameScene: SKScene,GameSceneDelegation
         let bottomPadding:CGFloat = 40
         var yoffset:CGFloat = -1 * ( self.frame.height - bannerHeight - bottomPadding);
         let p:CGFloat = 5.0;
-        let numberOfColumnPerRow = 3.0
+        let numberOfColumnPerRow = frame.height <= 480 ? 9.0 : 3.0;
+        let numberOfRows:CGFloat = 9 / CGFloat(numberOfColumnPerRow);
         
-        var clearButton = ClearButton()
-        clearButton.gridCellControllerDelegation = gridCellController
-        addChild(clearButton)
-        clearButton.position = CGPointMake(xoffset,yoffset)
+        if(numberOfRows>1){
+            var clearButton = ClearButton()
+            clearButton.gridCellControllerDelegation = gridCellController
+            addChild(clearButton)
+            clearButton.position = CGPointMake(xoffset,yoffset)
+        }
         
-        yoffset += 110
+        yoffset += CGFloat(numberOfRows) * (NumberButton.width + p)
         for(var i=1; i<10; i++){
             let _i = CGFloat(i);
             var button = NumberButton(buttonIndex: i);
             button.gridCellControllerDelegation = gridCellController
-            var w:CGFloat = CGFloat(button.width)
+            var w:CGFloat = CGFloat(NumberButton.width)
             var newY = yoffset - (w+p) * floor((_i-1)/CGFloat(numberOfColumnPerRow))
             button.position = CGPointMake(
                 xoffset + ((_i-1) % CGFloat(numberOfColumnPerRow)) * (w+p), newY);
@@ -111,23 +116,29 @@ class GameScene: SKScene,GameSceneDelegation
     }
     func makeColorButtons()
     {
-        let xoffset:CGFloat = 120;
+        var xoffset:CGFloat = 120;
         let bottomPadding:CGFloat = 40
         var yoffset:CGFloat = -1 * ( self.frame.height - bannerHeight - bottomPadding);
         let p:CGFloat = 5.0;
-        let numberOfColumnPerRow = 3.0
+        let numberOfColumnPerRow = frame.height <= 480 ? 9.0 : 3.0;
+        let numberOfRows:CGFloat = 9 / CGFloat(numberOfColumnPerRow);
         
-        var clearButton = ClearColorButton()
-        clearButton.gridCellControllerDelegation = gridCellController
-        addChild(clearButton)
-        clearButton.position = CGPointMake(xoffset,yoffset)
+        if(numberOfRows>1){
+            var clearButton = ClearColorButton()
+            clearButton.gridCellControllerDelegation = gridCellController
+            addChild(clearButton)
+            clearButton.position = CGPointMake(xoffset,yoffset)
+        }else{
+            xoffset = 10
+            yoffset += NumberButton.width + p
+        }
         
-        yoffset += 110
+        yoffset += CGFloat(numberOfRows) * (NumberButton.width + p)
         for(var i=1; i<10; i++){
             let _i = CGFloat(i);
             var button = ColorButton(index: i)
             button.gridCellControllerDelegation = gridCellController
-            var w:CGFloat = CGFloat(button.width)
+            var w:CGFloat = CGFloat(NumberButton.width)
             var newY = yoffset - (w+p) * floor((_i-1)/CGFloat(numberOfColumnPerRow))
             button.position = CGPointMake(
                 xoffset + ((_i-1) % CGFloat(numberOfColumnPerRow)) * (w+p), newY);
@@ -245,22 +256,24 @@ class NumberButton: SKNode
     var i:Int
     let bgNode:SKShapeNode
     let numberNode:SKLabelNode
-    let width = 30.0
+    class var width:CGFloat {
+        return 28.9
+    }
     let fontSize:CGFloat = 18
     var gridCellControllerDelegation:GridCellDelegation?
     init(buttonIndex:Int)
     {
         self.bgNode = SKShapeNode(path: CGPathCreateWithRoundedRect(
-            CGRectMake(0, 0, CGFloat(width), CGFloat(width)), 4, 4, nil));
+            CGRectMake(0, 0, CGFloat(NumberButton.width), CGFloat(NumberButton.width)), 4, 4, nil));
         self.bgNode.strokeColor = SKColor.clearColor()
         self.bgNode.fillColor = SKColor.whiteColor()
-        self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * width));
+        self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * NumberButton.width));
         
         self.numberNode = SKLabelNode(fontNamed: GameScene.systemFont);
         self.numberNode.fontSize = fontSize;
         self.numberNode.fontColor = SKColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
         
-        self.numberNode.position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
+        self.numberNode.position = CGPointMake(CGFloat(NumberButton.width/2), CGFloat(-1*NumberButton.width/2));
         self.numberNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         self.numberNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.numberNode.text = NSString(format: "%d", buttonIndex)
@@ -273,11 +286,10 @@ class NumberButton: SKNode
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.gridCellControllerDelegation?.setNumber(self.i,isAnnotation: false)
-        bgNode.runAction(SKAction.fadeAlphaTo(0.2, duration: 0.3),withKey:"touchDown")
+        bgNode.fillColor = GridCellColor.gray.color
     }
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        bgNode.removeActionForKey("touchDown")
-        bgNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.1))
+        bgNode.fillColor = SKColor.whiteColor()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -329,16 +341,15 @@ class ColorButton:SKNode
 {
     var color:GridCellColor
     let bgNode:SKShapeNode
-    let width = 30.0
     var gridCellControllerDelegation:GridCellDelegation?
     init(index:Int)
     {
         color = GridCellColor(rawValue: index)!
         self.bgNode = SKShapeNode(path: CGPathCreateWithRoundedRect(
-            CGRectMake(0, 0, CGFloat(width), CGFloat(width)), 4, 4, nil));
+            CGRectMake(0, 0, CGFloat(NumberButton.width), CGFloat(NumberButton.width)), 4, 4, nil));
         self.bgNode.strokeColor = SKColor.clearColor()
         self.bgNode.fillColor = color.color
-        self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * width));
+        self.bgNode.position = CGPointMake(0, CGFloat(-1.0 * NumberButton.width));
         
         super.init();
         self.userInteractionEnabled = true;

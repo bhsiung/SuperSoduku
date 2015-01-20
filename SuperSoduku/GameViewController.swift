@@ -18,7 +18,9 @@ class GameViewController: UIViewController,GameControllerDelegation
         super.viewDidLoad()
         navigationController?.navigationBar.hidden = true // for navigation bar hide
         UIApplication.sharedApplication().statusBarHidden=true;
-        addBanner()
+        if(view.frame.height>480){
+            addBanner()
+        }
         goGame()
     }
     func goGame()

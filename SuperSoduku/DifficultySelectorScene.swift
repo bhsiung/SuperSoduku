@@ -6,6 +6,7 @@ class DifficultyViewController:UIViewController,DifficultyControllerDelegation
     let bannerHeight:CGFloat = 50
     override func viewDidLoad()
     {
+        UserProfile.exp = 3000
         super.viewDidLoad()
         navigationController?.navigationBar.hidden = true // for navigation bar hide
         UIApplication.sharedApplication().statusBarHidden=true;
@@ -130,7 +131,13 @@ class DifficultySelectorScene: SKScene
         let h:CGFloat = 25;
         let w:CGFloat = 80
         let padding:CGFloat = 10
-        let yOffset:CGFloat = CGRectGetMidY(frame) + h * CGFloat(GameDifficulty.allValues.count) / 2
+        var yOffset:CGFloat = 0
+        if(frame.height <= 480){
+            yOffset = -220
+        }else{
+            yOffset = CGRectGetMidY(frame) + h * CGFloat(GameDifficulty.allValues.count) / 2
+        }
+        
         let xOffset:CGFloat = self.frame.width/2
         
         for d in GameDifficulty.allValues{
@@ -177,7 +184,7 @@ class GameLink:HintButton
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
         if(self.difficulty.isUnlocked){
-            self.difficultyControllerDelegation?.difficultySelected(self.difficulty)
+                self.difficultyControllerDelegation?.difficultySelected(self.difficulty)
         }
         super.touchesBegan(touches, withEvent: event)
     }
