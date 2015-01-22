@@ -16,8 +16,8 @@ class GameViewController: UIViewController,GameControllerDelegation
     {
         UserProfile.playCount++
         super.viewDidLoad()
-        navigationController?.navigationBar.hidden = true // for navigation bar hide
-        UIApplication.sharedApplication().statusBarHidden=true;
+        navigationController?.navigationBar.hidden = true
+        UIApplication.sharedApplication().statusBarHidden = false;
         if(view.frame.height>480){
             addBanner()
         }

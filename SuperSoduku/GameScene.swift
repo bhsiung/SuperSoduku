@@ -31,6 +31,9 @@ class GameScene: SKScene,GameSceneDelegation
         }
         makeUtil()
         self.backgroundColor = SKColor(red: 0.90, green: 0.90, blue: 0.85, alpha: 1)
+        println("12313")
+        CompleteEffect.complete(self, score: 1233)
+
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         let touch:UITouch = touches.anyObject() as UITouch;
@@ -41,6 +44,9 @@ class GameScene: SKScene,GameSceneDelegation
                 if let buttonName:String = button.name {
                     if(buttonName == "exit-button"){
                         self.gameControllerDelegation?.quitFromGame()
+                    }else if(buttonName == "replay-button"){
+                        gridCellController?.shuffleCellFixStatus()
+                        gridCellController?.assignCellNumbers()
                     }
                 }
             }
@@ -56,7 +62,7 @@ class GameScene: SKScene,GameSceneDelegation
         exitButtonNode.fontSize = 18
         
         let x:CGFloat = frame.width - 10;
-        let bottomPadding:CGFloat = 25
+        let bottomPadding:CGFloat = 30
         let y:CGFloat = -1 * ( self.frame.height - bannerHeight - bottomPadding);
         
         let bgNode = SKShapeNode(path: CGPathCreateWithRoundedRect(
@@ -89,7 +95,7 @@ class GameScene: SKScene,GameSceneDelegation
     func makeNumberButtons()
     {
         let xoffset:CGFloat = 10;
-        let bottomPadding:CGFloat = 40
+        let bottomPadding:CGFloat = 45
         var yoffset:CGFloat = -1 * ( self.frame.height - bannerHeight - bottomPadding);
         let p:CGFloat = 5.0;
         let numberOfColumnPerRow = frame.height <= 480 ? 9.0 : 3.0;
@@ -102,7 +108,7 @@ class GameScene: SKScene,GameSceneDelegation
             clearButton.position = CGPointMake(xoffset,yoffset)
         }
         
-        yoffset += CGFloat(numberOfRows) * (NumberButton.width + p)
+        yoffset += CGFloat(numberOfRows) * (NumberButton.width + p*2)
         for(var i=1; i<10; i++){
             let _i = CGFloat(i);
             var button = NumberButton(buttonIndex: i);
@@ -117,7 +123,7 @@ class GameScene: SKScene,GameSceneDelegation
     func makeColorButtons()
     {
         var xoffset:CGFloat = 120;
-        let bottomPadding:CGFloat = 40
+        let bottomPadding:CGFloat = 45
         var yoffset:CGFloat = -1 * ( self.frame.height - bannerHeight - bottomPadding);
         let p:CGFloat = 5.0;
         let numberOfColumnPerRow = frame.height <= 480 ? 9.0 : 3.0;
@@ -130,7 +136,7 @@ class GameScene: SKScene,GameSceneDelegation
             clearButton.position = CGPointMake(xoffset,yoffset)
         }else{
             xoffset = 10
-            yoffset += NumberButton.width + p
+            yoffset += NumberButton.width + p*2
         }
         
         yoffset += CGFloat(numberOfRows) * (NumberButton.width + p)
@@ -161,7 +167,7 @@ class CompleteEffect: SKNode
     let label:SKLabelNode
     let background: SKShapeNode
     let overlay: SKShapeNode
-    let exitButtonNode: SKLabelNode
+    let exitButtonNode: SKLabelNode, replayButtonNode:SKLabelNode
     let titleFont = "AvenirNextCondensed-HeavyItalic"
     let utilFont = "GillSans-Bold"
     let overlayColor = SKColor(red: 0.8, green: 0.36, blue: 0.36, alpha: 1);
@@ -183,6 +189,7 @@ class CompleteEffect: SKNode
         background = SKShapeNode(rect: CGRectMake(0, 0, self.gameScene.frame.width, self.gameScene.frame.height));
         overlay = SKShapeNode(rect: CGRectMake(0, 0, self.gameScene.frame.width, 100));
         exitButtonNode = SKLabelNode(fontNamed: utilFont)
+        replayButtonNode = SKLabelNode(fontNamed: utilFont)
 
         super.init()
         createTitle()
@@ -198,7 +205,7 @@ class CompleteEffect: SKNode
     func createUtil()
     {
         let padding:CGFloat = 10
-        exitButtonNode.text = "quit"
+        exitButtonNode.text = "Back to menu"
         exitButtonNode.fontSize = 15
         exitButtonNode.fontColor = SKColor.whiteColor()
         exitButtonNode.position = CGPointMake(
@@ -209,8 +216,21 @@ class CompleteEffect: SKNode
         exitButtonNode.alpha = 0
         exitButtonNode.name = "exit-button"
         exitButtonNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        exitButtonNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        
+        replayButtonNode.text = "Replay"
+        replayButtonNode.fontSize = 15
+        replayButtonNode.fontColor = SKColor.whiteColor()
+        replayButtonNode.position = CGPointMake(
+            overlay.position.x + overlay.frame.width - padding - 130,
+            overlay.position.y + padding
+        )
+        replayButtonNode.zPosition = 3
+        replayButtonNode.alpha = 0
+        replayButtonNode.name = "replay-button"
+        replayButtonNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+        
         self.addChild(exitButtonNode)
+        self.addChild(replayButtonNode)
     }
     func createOverlay()
     {
@@ -243,6 +263,7 @@ class CompleteEffect: SKNode
             self.overlay.runAction(SKAction.fadeAlphaTo(1.0, duration: 0.3))
             self.label.runAction(SKAction.fadeAlphaTo(1.0, duration: 0.3),completion:{
                 self.exitButtonNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.6))
+                self.replayButtonNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.6))
             })
         })
     }

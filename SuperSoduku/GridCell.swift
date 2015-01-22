@@ -25,7 +25,7 @@ class GridCell:SKNode
     let normalFontColor:SKColor = SKColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1)
     let definedFontColor:SKColor = SKColor.blackColor()
     
-    let isFixed:Bool,isFixedColor:Bool
+    var isFixed:Bool,isFixedColor:Bool
     
     var number:Int?{
         didSet{
@@ -257,6 +257,15 @@ class GridCellController:GridCellDelegation
         }
         self.assignCellNumbers();
     }
+    func shuffleCellFixStatus()
+    {
+        for x in 0...numberOfRow-1 {
+            for y in 0...numberOfRow-1{
+                cells[x][y].isFixed = self.difficulty.cellShouldBeFixed
+                cells[x][y].isFixedColor = self.difficulty.cellShouldBeFixed
+            }
+        }
+    }
     func cellGourpNumberFromPosition(x:Int,y:Int)->Int
     {
         var w = sqrtf(Float(numberOfRow))
@@ -474,6 +483,8 @@ class GridCellController:GridCellDelegation
             for y in 0 ... numberOfRow-1{
                 if(cells[x][y].isFixed){
                     cells[x][y].number = shuffleMapping[sample[x][y]-1];
+                }else{
+                    cells[x][y].number = nil
                 }
             }
         }
@@ -497,7 +508,8 @@ class GridCellController:GridCellDelegation
                         var colorNumber:Int = shuffleColorMapping[sampleColor[x][y]-1]
                         var cellColor = GridCellColor(rawValue: colorNumber)
                         cells[x][y].setBackgroundColor(cellColor!)
-                        
+                    }else{
+                        cells[x][y].setBackgroundColor(GridCellColor.clear)
                     }
                 }
             }

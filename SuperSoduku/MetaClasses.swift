@@ -113,17 +113,17 @@ enum GameDifficulty:Int{
     var text: String{
         switch self{
         case easy:
-            return "Easy";
+            return "Classic Easy";
         case normal:
-            return "Normal";
+            return "Classic Normal";
         case hard:
-            return "Hard";
+            return "Classic Expert";
         case expert:
-            return "Expert";
+            return "Colorful Land";
         case insane:
-            return "Insane";
+            return "Colorful Dojo";
         case nightmare:
-            return "Nightmare";
+            return "Colorful Nightmare";
         }
     }
     var dimension: Int{
@@ -177,11 +177,11 @@ enum GameDifficulty:Int{
         case hard:
             return UserProfile.lv > 4;
         case expert:
-            return UserProfile.lv > 6;
+            return UserProfile.lv > 2;
         case insane:
-            return UserProfile.lv > 8;
+            return UserProfile.lv > 6;
         case nightmare:
-            return UserProfile.lv > 10;
+            return UserProfile.lv > 8;
         }
     }
 }
@@ -190,10 +190,11 @@ class ButtonOverlay:SKNode
     let body:SKLabelNode
     let container: SKShapeNode
     var initialPosition:(x:CGFloat,y:CGFloat) = (0,0);
+    let radius:CGFloat = 8
     init(bodyText:String,width:CGFloat,height:CGFloat)
     {
         container = SKShapeNode(path: CGPathCreateWithRoundedRect(
-            CGRectMake(-1 * width/2, -1 * height/2, CGFloat(width), CGFloat(height)), 4, 4, nil));
+            CGRectMake(-1 * width/2, -1 * height/2, CGFloat(width), CGFloat(height)), radius, radius, nil));
         body = SKLabelNode(fontNamed: "Avenir-Light")
         super.init()
                 name = "buttonOverlay"
@@ -216,7 +217,7 @@ class ButtonOverlay:SKNode
     func drawContainer()
     {
         container.strokeColor = SKColor.clearColor()
-        container.fillColor = SKColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1)
+        container.fillColor = GridCellColor.red.color
         container.name = self.name
         addChild(container)
     }
@@ -225,7 +226,7 @@ class ButtonOverlay:SKNode
         self.zPosition = 8
         self.removeActionForKey("play")
         runAction(SKAction.group([
-            SKAction.moveBy(CGVectorMake(0, container.frame.height), duration: 0.1),
+            SKAction.moveBy(CGVectorMake(0, container.frame.height * 0.8), duration: 0.1),
             SKAction.fadeAlphaTo(1, duration: 0.2)]), withKey: "play")
     }
     func reset()
@@ -248,12 +249,11 @@ class HintButton:SKNode
     var overlay:ButtonOverlay?
     var overlayEnabled = false
     let borderNode:SKShapeNode
-    let radius:CGFloat = 4
+    let radius:CGFloat = 8
     
     init(height:CGFloat,width:CGFloat)
     {
-        
-        borderNode = SKShapeNode(path: CGPathCreateWithRoundedRect(CGRectMake(-1*width/2, -1*height/2, width, height), radius, radius, nil))
+        borderNode = SKShapeNode(rect: CGRectMake(-1*width/2, -1*height/2, width, height), cornerRadius: radius)
         borderNode.strokeColor = SKColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1)
         borderNode.fillColor = SKColor.clearColor()
         borderNode.name = "borderNode"

@@ -3,15 +3,15 @@ import SpriteKit
 
 class DifficultyViewController:UIViewController,DifficultyControllerDelegation
 {
-    let bannerHeight:CGFloat = 50
+    let bannerHeight:CGFloat = 0
     override func viewDidLoad()
     {
-        UserProfile.exp = 3000
+        UserProfile.exp = 30
         super.viewDidLoad()
-        navigationController?.navigationBar.hidden = true // for navigation bar hide
+        navigationController?.navigationBar.hidden = true
         UIApplication.sharedApplication().statusBarHidden=true;
         goDifficultySelector()
-        addBanner()
+        //addBanner()
     }
     func goDifficultySelector()
     {
@@ -87,7 +87,6 @@ class UserProfile
 class DifficultySelectorScene: SKScene
 {
     var difficultyControllerDelegation: DifficultyControllerDelegation?
-    var bannerHeight:CGFloat = 50
     class var systemFont:String {
         return "Futura-Medium"
     }
@@ -102,15 +101,25 @@ class DifficultySelectorScene: SKScene
         self.addChild(logoNode)
         createSelector()
         createUserInfo()
+        self.runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed("main.mp3", waitForCompletion: true)), withKey:"music")
     }
     func createUserInfo()
     {
-        let lines:[(CGFloat,String)] = [(16,"level: \(UserProfile.lv)"),(16,"EXP: \(UserProfile.exp)"),(13,"User profile:")]
-        let bottomPadding:CGFloat = 15
-        let yoffset:CGFloat = -1 * frame.height + bannerHeight + bottomPadding
+        let lines:[(CGFloat,String)] = [(16,"level: \(UserProfile.lv)"),(16,"exp: \(UserProfile.exp)"),(13,"User profile:")]
+        let bottomPadding:CGFloat = 35
+        let yoffset:CGFloat = -1 * frame.height + bottomPadding + 10
         let xoffset:CGFloat = 10
         var y:CGFloat = yoffset
+        let containerWidth:CGFloat = 112
+        let containerHeight:CGFloat = 85
         
+        let container = SKShapeNode(rect: CGRectMake(
+            frame.width - containerWidth + 12,
+            -1 * frame.height + bottomPadding,
+            containerWidth, containerHeight), cornerRadius: 12)
+        container.fillColor = GridCellColor.green.color
+        container.strokeColor = SKColor.clearColor()
+        addChild(container)
         
         for (fontSize,text) in lines{
 
@@ -128,23 +137,30 @@ class DifficultySelectorScene: SKScene
     func createSelector()
     {
         var i = 0
-        let h:CGFloat = 25;
-        let w:CGFloat = 80
+        let h:CGFloat = 35;
+        let w:CGFloat = 130
         let padding:CGFloat = 10
         var yOffset:CGFloat = 0
         if(frame.height <= 480){
             yOffset = -220
         }else{
-            yOffset = CGRectGetMidY(frame) + h * CGFloat(GameDifficulty.allValues.count) / 2
+            yOffset = CGRectGetMidY(frame) + h * CGFloat(GameDifficulty.allValues.count) / 4 - 50
         }
         
-        let xOffset:CGFloat = self.frame.width/2
+        let xOffset1:CGFloat = (self.frame.width - w - padding)/2
+        let xOffset2:CGFloat = (self.frame.width + w + padding)/2
         
         for d in GameDifficulty.allValues{
             var link = GameLink(d: d,height:h,width:w)
-            link.position = CGPointMake(
-                xOffset,
-                yOffset-CGFloat(i)*(h+padding))
+            if(i>2){
+                link.position = CGPointMake(
+                    xOffset2,
+                    yOffset-CGFloat(i%3)*(h+padding))
+            }else{
+                link.position = CGPointMake(
+                    xOffset1,
+                    yOffset-CGFloat(i%3)*(h+padding))
+            }
             link.difficultyControllerDelegation = self.difficultyControllerDelegation
             link.zPosition = 3
             addChild(link)
@@ -168,13 +184,16 @@ class GameLink:HintButton
         
         difficulty = d
         super.init(height: height, width: width)
+        //borderNode.strokeColor = SKColor.clearColor()
+        //borderNode.fillColor = GridCellColor.orange.color
+        
         self.userInteractionEnabled = true
         self.addChild(borderNode)
         self.addChild(labelNode)
         if(!self.difficulty.isUnlocked){
             borderNode.alpha = 0.5
             labelNode.fontColor = SKColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            enableOverlay("", bodyText: "Level \(self.difficulty.text) is locked", width: 180, height: 40)
+            enableOverlay("", bodyText: "\(self.difficulty.text) is locked", width: 160, height: 36)
         }
     }
 

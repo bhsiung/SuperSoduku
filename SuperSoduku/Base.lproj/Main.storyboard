@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9WQ-OK-IHW">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Game View Controller-->
@@ -32,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Odg-ZK-Ouo" kind="relationship" relationship="rootViewController" id="3iw-KC-zcX"/>
+                        <segue destination="Odg-ZK-Ouo" kind="relationship" relationship="rootViewController" id="LXp-BF-PUZ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIn-Dr-ze8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -50,7 +51,25 @@
                     <view key="view" contentMode="scaleToFill" id="kOp-2d-3UP" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Music provided by Royalty Free Music Room dot com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKo-Ch-idH">
+                                <rect key="frame" x="105" y="571" width="413" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                <color key="textColor" red="0.19124842171717171" green="0.19124842171717171" blue="0.19124842171717171" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="bKo-Ch-idH" secondAttribute="centerX" id="AbH-cg-y0J"/>
+                            <constraint firstItem="0wy-Q0-vIR" firstAttribute="top" secondItem="bKo-Ch-idH" secondAttribute="bottom" constant="10" id="XJc-ks-T2P"/>
+                            <constraint firstItem="bKo-Ch-idH" firstAttribute="leading" secondItem="kOp-2d-3UP" secondAttribute="leadingMargin" constant="5" id="gWh-IP-Uoe"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="gWh-IP-Uoe"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="yhx-kl-YtU"/>
                     <connections>
@@ -59,7 +78,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9wE-wy-fH0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-485" y="-133"/>
+            <point key="canvasLocation" x="-657" y="-185"/>
         </scene>
     </scenes>
 </document>
