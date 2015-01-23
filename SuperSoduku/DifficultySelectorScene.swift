@@ -4,14 +4,18 @@ import SpriteKit
 class DifficultyViewController:UIViewController,DifficultyControllerDelegation
 {
     let bannerHeight:CGFloat = 0
+    var scene:DifficultySelectorScene?
     override func viewDidLoad()
     {
-        UserProfile.exp = 30
+        //UserProfile.exp = 30
         super.viewDidLoad()
         navigationController?.navigationBar.hidden = true
         UIApplication.sharedApplication().statusBarHidden=true;
         goDifficultySelector()
         //addBanner()
+    }
+    override func viewDidAppear(animated: Bool) {
+        self.scene?.refreshUserInfo()
     }
     func goDifficultySelector()
     {
@@ -24,6 +28,7 @@ class DifficultyViewController:UIViewController,DifficultyControllerDelegation
         scene.difficultyControllerDelegation = self
         
         skView.presentScene(scene)
+        self.scene = scene
     }
     func difficultySelected(d: GameDifficulty) {
         if var gameVc:GameViewController = self.storyboard!.instantiateViewControllerWithIdentifier(
@@ -102,6 +107,11 @@ class DifficultySelectorScene: SKScene
         createSelector()
         createUserInfo()
         self.runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed("main.mp3", waitForCompletion: true)), withKey:"music")
+    }
+    func refreshUserInfo()
+    {
+        //todo
+        println("refresh")
     }
     func createUserInfo()
     {

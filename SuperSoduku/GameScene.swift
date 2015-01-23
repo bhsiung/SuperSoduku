@@ -23,6 +23,8 @@ class GameScene: SKScene,GameSceneDelegation
     var bannerHeight:CGFloat {
         return self.frame.height > 480 ? 50 : 0
     }
+    var completeEffect:CompleteEffect?
+    
     override func didMoveToView(view: SKView) {
         makeGrid()
         makeNumberButtons()
@@ -31,9 +33,7 @@ class GameScene: SKScene,GameSceneDelegation
         }
         makeUtil()
         self.backgroundColor = SKColor(red: 0.90, green: 0.90, blue: 0.85, alpha: 1)
-        println("12313")
-        CompleteEffect.complete(self, score: 1233)
-
+        //completeEffect = CompleteEffect.complete(self,score:1234)
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         let touch:UITouch = touches.anyObject() as UITouch;
@@ -47,6 +47,7 @@ class GameScene: SKScene,GameSceneDelegation
                     }else if(buttonName == "replay-button"){
                         gridCellController?.shuffleCellFixStatus()
                         gridCellController?.assignCellNumbers()
+                        completeEffect?.dismiss()
                     }
                 }
             }
@@ -156,7 +157,7 @@ class GameScene: SKScene,GameSceneDelegation
         self.gridCellController?.setNumber(i)
     }
     func complete() {
-        CompleteEffect.complete(self,score:1234)
+        completeEffect = CompleteEffect.complete(self,score:1234)
         UserProfile.exp += difficulty.expGain
     }
 }
@@ -172,13 +173,13 @@ class CompleteEffect: SKNode
     let utilFont = "GillSans-Bold"
     let overlayColor = SKColor(red: 0.8, green: 0.36, blue: 0.36, alpha: 1);
     
-    class func complete(scene:GameScene,score:Int)
+    class func complete(scene:GameScene,score:Int) -> CompleteEffect
     {
         let node = CompleteEffect(score: score,scene: scene);
         scene.addChild(node)
         node.zPosition = 5;
-
         node.play()
+        return node
     }
     init(score:Int,scene:GameScene)
     {
@@ -264,6 +265,18 @@ class CompleteEffect: SKNode
             self.label.runAction(SKAction.fadeAlphaTo(1.0, duration: 0.3),completion:{
                 self.exitButtonNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.6))
                 self.replayButtonNode.runAction(SKAction.fadeAlphaTo(1, duration: 0.6))
+            })
+        })
+    }
+    func dismiss()
+    {
+        background.runAction(SKAction.fadeAlphaTo(0.0, duration: 0.1), completion: {
+            self.overlay.runAction(SKAction.fadeAlphaTo(0.0, duration: 0.3))
+            self.label.runAction(SKAction.fadeAlphaTo(0.0, duration: 0.3),completion:{
+                self.exitButtonNode.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
+                self.replayButtonNode.runAction(SKAction.fadeAlphaTo(0, duration: 0.7), completion:{
+                    self.removeFromParent()
+                })
             })
         })
     }

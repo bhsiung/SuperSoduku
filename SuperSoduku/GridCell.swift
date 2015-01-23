@@ -25,7 +25,16 @@ class GridCell:SKNode
     let normalFontColor:SKColor = SKColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1)
     let definedFontColor:SKColor = SKColor.blackColor()
     
-    var isFixed:Bool,isFixedColor:Bool
+    var isFixed:Bool = false {
+        didSet(newValue){
+            if(isFixed){
+                self.numberNode.fontName = "Futura-CondensedExtraBold"
+            }else{
+                self.numberNode.fontName = GameScene.systemFont
+            }
+        }
+    }
+    var isFixedColor:Bool
     
     var number:Int?{
         didSet{
@@ -69,10 +78,10 @@ class GridCell:SKNode
         self.colorErrorIndicator.alpha = 0
         
         self.numberNode = SKLabelNode(fontNamed: GameScene.systemFont);
-        self.numberNode.fontSize = fontSize;
         if(isFixed){
             self.numberNode.fontName = "Futura-CondensedExtraBold"
         }
+        self.numberNode.fontSize = fontSize;
         self.numberNode.fontColor = normalFontColor;
         self.numberNode.position = CGPointMake(CGFloat(width/2), CGFloat(-1*width/2));
         self.numberNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -84,9 +93,10 @@ class GridCell:SKNode
         self.x = x
         self.y = y
         self.width = width
-        self.isFixed = isFixed
         self.isFixedColor = isFixedColor
         super.init();
+        
+        self.isFixed = isFixed
         makeAnnotation()
         
         self.userInteractionEnabled = true;

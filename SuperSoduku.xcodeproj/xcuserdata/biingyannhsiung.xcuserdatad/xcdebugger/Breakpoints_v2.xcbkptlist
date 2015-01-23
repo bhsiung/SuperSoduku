@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SuperSoduku/GameScene.swift"
-            timestampString = "443616806.774347"
+            timestampString = "443701005.86583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "init(buttonIndex:)"
             landmarkType = "5">
          </BreakpointContent>
