@@ -92,6 +92,11 @@ class UserProfile
 class DifficultySelectorScene: SKScene
 {
     var difficultyControllerDelegation: DifficultyControllerDelegation?
+    var userInfoLabels:[SKLabelNode] = []
+    var userInfoLines:[(CGFloat,String)] {
+        return [(16,"level: \(UserProfile.lv)"),(16,"exp: \(UserProfile.exp)"),(13,"User profile:")]
+    }
+    
     class var systemFont:String {
         return "Futura-Medium"
     }
@@ -110,12 +115,15 @@ class DifficultySelectorScene: SKScene
     }
     func refreshUserInfo()
     {
-        //todo
-        println("refresh")
+        var i = 0
+        for (fontSize,text) in userInfoLines{
+            userInfoLabels[i].text = text
+            i++
+        }
     }
     func createUserInfo()
     {
-        let lines:[(CGFloat,String)] = [(16,"level: \(UserProfile.lv)"),(16,"exp: \(UserProfile.exp)"),(13,"User profile:")]
+        
         let bottomPadding:CGFloat = 35
         let yoffset:CGFloat = -1 * frame.height + bottomPadding + 10
         let xoffset:CGFloat = 10
@@ -131,18 +139,18 @@ class DifficultySelectorScene: SKScene
         container.strokeColor = SKColor.clearColor()
         addChild(container)
         
-        for (fontSize,text) in lines{
-
-            var levelLabel = SKLabelNode(fontNamed: DifficultySelectorScene.systemFont)
+        for (fontSize,text) in userInfoLines{
+            var levelLabel:SKLabelNode = SKLabelNode(fontNamed: DifficultySelectorScene.systemFont)
             levelLabel.fontSize = fontSize
             levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
             levelLabel.fontColor = SKColor.blackColor()
-            levelLabel.text = text
             levelLabel.position = CGPointMake(
                 self.view!.frame.width - xoffset,y)
             addChild(levelLabel)
             y += fontSize * 1.6
+            self.userInfoLabels.append(levelLabel)
         }
+        refreshUserInfo()
     }
     func createSelector()
     {
